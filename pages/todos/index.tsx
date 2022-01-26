@@ -5,6 +5,8 @@ import { addDoc, getDocs, collection, query, where } from "@firebase/firestore";
 import { db } from "../../db/firebase-config";
 import { todoItemConverter } from "../../db/converters";
 import { TodoItem } from "../../common/types";
+import ToDoItem from "../../components/ToDoItem/ToDoItem";
+import { Container } from "@mui/material";
 
 const ToDosMainPage: NextPage = () => {
   const [todos, setTodos] = useState<any[]>([]);
@@ -75,10 +77,10 @@ const ToDosMainPage: NextPage = () => {
     console.log(todos);
   }, [todos]);
   useEffect(() => {
-    getUserToDos();
+      setTimeout(getUserToDos,1000);
   }, []);
   return (
-    <div>
+    <Container>
       <div style={{ border: "1px solid black" }}>
         <p>Title</p>
         <input value={newTodoItem.title} onChange={onToDoTitleChange}></input>
@@ -102,8 +104,19 @@ const ToDosMainPage: NextPage = () => {
         <button onClick={createToDoItem}>Create</button>
         <button onClick={getUserToDos}>Get</button>
       </div>
-      
-    </div>
+      <div>
+          {todos.map((item)=> {
+              return(
+                  
+                  <ToDoItem
+                    key={item.uid+item.title}
+                    todoItem={item}
+                  />
+                  
+              );
+          })}
+      </div>
+    </Container>
   );
 };
 export default ToDosMainPage;
