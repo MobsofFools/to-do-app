@@ -3,10 +3,12 @@ import { auth } from "../../db/firebase-config";
 import { useState, ChangeEvent, useEffect } from "react";
 import { addDoc, getDocs, collection, query, where } from "@firebase/firestore";
 import { db } from "../../db/firebase-config";
+import { todoItemConverter } from "../../db/converters";
+import { TodoItem } from "../../common/types";
 
 const ToDosMainPage: NextPage = () => {
   const [todos, setTodos] = useState<any[]>([]);
-  const [newTodoItem, setNewToDoItem] = useState({
+  const [newTodoItem, setNewToDoItem] = useState<TodoItem>({
     title: "",
     description: "",
     deadline: "",
@@ -26,7 +28,7 @@ const ToDosMainPage: NextPage = () => {
   };
   const createToDoItem = async () => {
     const uid = auth.currentUser?.uid;
-    const todoRef = collection(db, "todos");
+    const todoRef = collection(db, "todos").withConverter(todoItemConverter);
     if (uid) {
       const set = await addDoc(todoRef, {
         uid: uid,
