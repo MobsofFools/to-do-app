@@ -1,6 +1,7 @@
 {
   "name": "to-do-app",
   "private": true,
+  "author": "Edvin Lin <edvinlin@gmail.com>",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.3.1",
     "firebase": "^9.6.4",
     "next": "12.0.8",

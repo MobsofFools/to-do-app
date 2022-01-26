@@ -80,7 +80,7 @@ const ToDosMainPage: NextPage = () => {
       setTimeout(getUserToDos,1000);
   }, []);
   return (
-    <Container>
+    <Container sx={{display:"flex", width:"100vw"}} >
       <div style={{ border: "1px solid black" }}>
         <p>Title</p>
         <input value={newTodoItem.title} onChange={onToDoTitleChange}></input>
