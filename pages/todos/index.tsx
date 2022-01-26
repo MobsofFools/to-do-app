@@ -11,7 +11,7 @@ import { Button, Container } from "@mui/material";
 import { useWindowDimensions } from "../../common/utils";
 
 const ToDosMainPage: NextPage = () => {
-  const { width } = useWindowDimensions();
+  const {width} = useWindowDimensions();
   const [todos, setTodos] = useState<any[]>([]);
   const [newTodoItem, setNewToDoItem] = useState<TodoItem>({
     title: "",
