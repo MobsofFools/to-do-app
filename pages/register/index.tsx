@@ -1,16 +1,17 @@
 import { NextPage } from "next";
 import Link from "next/link";
 import { db, auth } from "../../db/firebase-config";
-import { useState, ChangeEvent, useEffect } from "react";
+import { useState, ChangeEvent } from "react";
 import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  User,
-  signOut,
 } from "firebase/auth";
-import { addDoc, setDoc, collection, doc } from "@firebase/firestore";
-import { Box, Container, TextField, Grid, Button } from "@mui/material";
+import { setDoc, doc } from "@firebase/firestore";
+import Box from "@mui/material/Box"
+import Container from "@mui/material/Container"
+import TextField from "@mui/material/TextField"
+import Grid from "@mui/material/Grid"
+import Button from "@mui/material/Button"
 import { useRouter } from "next/router";
 const Register: NextPage = () => {
   const router = useRouter();

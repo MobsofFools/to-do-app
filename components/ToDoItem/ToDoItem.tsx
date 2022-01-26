@@ -10,19 +10,20 @@ type TodoItemProps = {
 const ToDoItem = (props: TodoItemProps) => {
   const { title, description, location, complete, deadline } = props.todoItem;
   const [open, setOpen] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const handleClickAway = () => {
     setOpen(false);
   };
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box
-        sx={{ border: "1px solid black", minWidth: "50vw" }}
-        bgcolor={"#63839c"}
-        borderRadius={"1rem"}
+        sx={{ border:"1px solid rgba(90,90,90,0.25)", minWidth: "50vw",boxShadow: "rgba(99, 99, 99, 0.2) 0px 4px 8px 0px" }}
+        borderRadius={"0.5rem"}
         px={"1rem"}
         py={"0.5rem"}
         margin={"0.5rem"}
         onClick={() => setOpen(true)}
+        
       >
         <div
           style={{ fontSize: "1.2rem", fontWeight: "bold" }}
@@ -33,11 +34,9 @@ const ToDoItem = (props: TodoItemProps) => {
         <Collapse in={open}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
-              <p>Description</p>
               <div>{description}</div>
             </div>
             <div>
-              <p>Location</p>
               <div>{location}</div>
             </div>
           </div>

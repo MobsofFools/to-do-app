@@ -3,10 +3,13 @@ import Link from "next/link";
 import { db, auth } from "../../db/firebase-config";
 import { useState, ChangeEvent, useEffect } from "react";
 import {
-  onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { Box, Container, TextField, Grid, Button } from "@mui/material";
+import Box from "@mui/material/Box"
+import Container from "@mui/material/Container"
+import TextField from "@mui/material/TextField"
+import Grid from "@mui/material/Grid"
+import Button from "@mui/material/Button"
 import { useRouter } from "next/router";
 
 const Login: NextPage = () => {

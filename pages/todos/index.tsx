@@ -6,9 +6,12 @@ import { db } from "../../db/firebase-config";
 import { todoItemConverter } from "../../db/converters";
 import { TodoItem } from "../../common/types";
 import ToDoItem from "../../components/ToDoItem/ToDoItem";
-import { Container } from "@mui/material";
+import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import { Button, Container } from "@mui/material";
+import { useWindowDimensions } from "../../common/utils";
 
 const ToDosMainPage: NextPage = () => {
+  const { width } = useWindowDimensions();
   const [todos, setTodos] = useState<any[]>([]);
   const [newTodoItem, setNewToDoItem] = useState<TodoItem>({
     title: "",
@@ -16,6 +19,7 @@ const ToDosMainPage: NextPage = () => {
     deadline: "",
     location: "",
   });
+  const [showToDoMenu, setShowToDoMenu] = useState(false);
   const getUserToDos = async () => {
     const uid = auth.currentUser?.uid;
     if (uid) {
@@ -39,14 +43,16 @@ const ToDosMainPage: NextPage = () => {
         deadline: newTodoItem.deadline,
         location: newTodoItem.location,
         complete: false,
-      }).then((res) =>
+      }).then((res) => {
         setNewToDoItem({
           title: "",
           description: "",
           deadline: "",
           location: "",
-        })
-      );
+        });
+        setTimeout(getUserToDos, 2000);
+        setShowToDoMenu(false);
+      });
     }
   };
   const onToDoTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -77,44 +83,86 @@ const ToDosMainPage: NextPage = () => {
     console.log(todos);
   }, [todos]);
   useEffect(() => {
-      setTimeout(getUserToDos,1000);
+    setTimeout(getUserToDos, 1000);
   }, []);
+
   return (
-    <Container sx={{display:"flex", width:"100vw"}} >
-      <div style={{ border: "1px solid black" }}>
-        <p>Title</p>
-        <input value={newTodoItem.title} onChange={onToDoTitleChange}></input>
-        <p>Description</p>
-        <input
-          value={newTodoItem.description}
-          onChange={onToDoDescriptionChange}
-        ></input>
-        <p>Deadline?</p>
-        <input
-          type="datetime-local"
-          value={newTodoItem.deadline}
-          onChange={onToDoDeadlineChange}
-        ></input>
-        <p>Location</p>
-        <input
-          value={newTodoItem.location}
-          onChange={onToDoLocationChange}
-        ></input>
-        <br />
-        <button onClick={createToDoItem}>Create</button>
-        <button onClick={getUserToDos}>Get</button>
-      </div>
+    <Container sx={{ width: "100vw", paddingY:"1rem"} }>
+      <Button variant="contained" onClick={() => setShowToDoMenu(!showToDoMenu)}>Add New Item</Button>
+      {width < 700 ? (
+        <SwipeableDrawer
+          anchor={"right"}
+          open={showToDoMenu}
+          onOpen={() => console.log("open")}
+          onClose={() => setShowToDoMenu(false)}
+        >
+          <div style={{ border: "1px solid black", minWidth: "90vw" }}>
+            <p>Title</p>
+            <input
+              value={newTodoItem.title}
+              onChange={onToDoTitleChange}
+            ></input>
+            <p>Description</p>
+            <input
+              value={newTodoItem.description}
+              onChange={onToDoDescriptionChange}
+            ></input>
+            <p>Deadline?</p>
+            <input
+              type="datetime-local"
+              value={newTodoItem.deadline}
+              onChange={onToDoDeadlineChange}
+            ></input>
+            <p>Location</p>
+            <input
+              value={newTodoItem.location}
+              onChange={onToDoLocationChange}
+            ></input>
+            <br />
+            <button onClick={createToDoItem}>Create</button>
+            <button onClick={getUserToDos}>Get</button>
+          </div>
+        </SwipeableDrawer>
+      ) : (
+        <SwipeableDrawer
+          anchor={"right"}
+          open={showToDoMenu}
+          onOpen={() => console.log("open")}
+          onClose={() => setShowToDoMenu(false)}
+        >
+          <div style={{ border: "1px solid black", minWidth: "50vw" }}>
+            <p>Title</p>
+            <input
+              value={newTodoItem.title}
+              onChange={onToDoTitleChange}
+            ></input>
+            <p>Description</p>
+            <input
+              value={newTodoItem.description}
+              onChange={onToDoDescriptionChange}
+            ></input>
+            <p>Deadline?</p>
+            <input
+              type="datetime-local"
+              value={newTodoItem.deadline}
+              onChange={onToDoDeadlineChange}
+            ></input>
+            <p>Location</p>
+            <input
+              value={newTodoItem.location}
+              onChange={onToDoLocationChange}
+            ></input>
+            <br />
+            <button onClick={createToDoItem}>Create</button>
+            <button onClick={getUserToDos}>Get</button>
+          </div>
+        </SwipeableDrawer>
+      )}
+
       <div>
-          {todos.map((item)=> {
-              return(
-                  
-                  <ToDoItem
-                    key={item.uid+item.title}
-                    todoItem={item}
-                  />
-                  
-              );
-          })}
+        {todos.map((item) => {
+          return <ToDoItem key={item.uid + item.title} todoItem={item} />;
+        })}
       </div>
     </Container>
   );
