@@ -1,46 +1,72 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import { db, auth } from "../../db/firebase-config";
-import { useState, ChangeEvent, useEffect } from "react";
+import { auth } from "../../db/firebase-config";
+import { useState, ChangeEvent } from "react";
 import {
   signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
-import Box from "@mui/material/Box"
-import Container from "@mui/material/Container"
-import TextField from "@mui/material/TextField"
-import Grid from "@mui/material/Grid"
-import Button from "@mui/material/Button"
+import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 
 const Login: NextPage = () => {
-    const router = useRouter();
-    const [loginData, setLoginData] = useState({
-        email:"",
-        password:""
-    })
-    const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setLoginData((prev) => ({
-          ...prev,
-          email: e.target.value,
-        }));
-      };
-      const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setLoginData((prev) => ({
-          ...prev,
-          password: e.target.value,
-        }));
-      };
-      const login = async () => {
-        const user = await signInWithEmailAndPassword(
-          auth,
-          loginData.email,
-          loginData.password
-        ).then(res => {
-            router.push("/")
-        });
-      };
-    return (
-<Container maxWidth="sm">
+  const router = useRouter();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+  const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLoginData((prev) => ({
+      ...prev,
+      email: e.target.value,
+    }));
+  };
+  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLoginData((prev) => ({
+      ...prev,
+      password: e.target.value,
+    }));
+  };
+  const login = async () => {
+    const user = await signInWithEmailAndPassword(
+      auth,
+      loginData.email,
+      loginData.password
+    ).then((res) => {
+      router.push("/");
+    });
+  };
+  // const loginWithThirdParty = async () => {
+  //   const provider = new GoogleAuthProvider();
+  //   const user = await signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       // // This gives you a Google Access Token. You can use it to access the Google API.
+  //       console.log("success");
+  //       // const credential = GoogleAuthProvider.credentialFromResult(result);
+  //       // const token = credential!.accessToken;
+  //       // // The signed-in user info.
+  //       // const user = result.user;
+  //       // // ...
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       // // Handle Errors here.
+  //       // const errorCode = error.code;
+  //       // const errorMessage = error.message;
+  //       // // The email of the user's account used.
+  //       // const email = error.email;
+  //       // // The AuthCredential type that was used.
+  //       // const credential = GoogleAuthProvider.credentialFromError(error);
+  //       // // ...
+  //     });
+  // };
+  return (
+    <Container maxWidth="sm">
       <Box bgcolor={"yellow"} paddingX={"2rem"} marginY={"3rem"}>
         <Grid
           container
@@ -65,17 +91,22 @@ const Login: NextPage = () => {
             onChange={onPasswordChange}
           />
           <h6 style={{ marginTop: 0, paddingTop: 0, textAlign: "right" }}>
-            Don't have an account? 
+            Don't have an account?
             <Link href="/register">
-              <a><b> Register here</b></a>
+              <a>
+                <b> Register here</b>
+              </a>
             </Link>
           </h6>
           <Button variant="contained" onClick={login}>
             login
           </Button>
         </Grid>
+        {/* <Button variant="contained" onClick={loginWithThirdParty}>
+          Google
+        </Button> */}
       </Box>
     </Container>
-    );
-}
-export default Login
+  );
+};
+export default Login;
