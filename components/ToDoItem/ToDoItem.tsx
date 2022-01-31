@@ -1,49 +1,56 @@
 import Box from "@mui/material/Box";
+import Link from "next/link";
 import { useState } from "react";
-import { TodoItem } from "../../common/types";
+import { ITodoItem } from "../../common/types";
 import { Timestamp } from "@firebase/firestore";
 import Collapse from "@mui/material/Collapse";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
+import Button from '@mui/material/Button';
 
 type TodoItemProps = {
-  todoItem: TodoItem;
+  todoItem: ITodoItem;
 };
 const ToDoItem = (props: TodoItemProps) => {
-  const { title, description, location, complete, deadline } = props.todoItem;
+  const { title, description, location, complete, deadline, id } =
+    props.todoItem;
   const [open, setOpen] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const handleClickAway = () => {
     setOpen(false);
   };
-  function isTimestamp(object:any): object is Timestamp {
+  function isTimestamp(object: any): object is Timestamp {
     return (object as Timestamp).toDate !== undefined;
   }
-  const deadlineToString = (ddeadline:any) => {
+  const deadlineToString = (ddeadline: any) => {
     const checkStamp = isTimestamp(ddeadline);
-    if(checkStamp)
-    {
+    if (checkStamp) {
       return ddeadline.toDate().toString();
     }
     return ddeadline;
-  }
-  
+  };
+  const redirectLink = `/todos/${id}`;
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box
-        sx={{ border:"1px solid rgba(90,90,90,0.25)", minWidth: "50vw",boxShadow: "rgba(99, 99, 99, 0.2) 0px 4px 8px 0px" }}
+        sx={{
+          border: "1px solid rgba(90,90,90,0.25)",
+          minWidth: "50vw",
+          boxShadow: "rgba(99, 99, 99, 0.2) 0px 4px 8px 0px",
+        }}
         borderRadius={"0.5rem"}
         bgcolor={"white"}
         px={"1rem"}
         py={"0.5rem"}
         margin={"0.5rem"}
         onClick={() => setOpen(true)}
-        
       >
-        <div
-          style={{ fontSize: "1.2rem", fontWeight: "bold" }}
-          
-        >
-          {title}
+        <div style={{ fontSize: "1.2rem", fontWeight: "bold", display:'flex', justifyContent:'space-between' }}>
+          <div>{title}</div>
+          <Button>
+            <Link href={redirectLink}>
+              <a>Link</a>
+            </Link>
+          </Button>
         </div>
         <Collapse in={open}>
           <div style={{ display: "flex", justifyContent: "space-between" }}>

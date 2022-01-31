@@ -5,10 +5,10 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from "@firebase/firestore";
-import { TodoItem } from "../common/types";
+import { ITodoItem } from "../common/types";
 
-export const todoItemConverter: FirestoreDataConverter<TodoItem> = {
-  toFirestore(item: WithFieldValue<TodoItem>): DocumentData {
+export const todoItemConverter: FirestoreDataConverter<ITodoItem> = {
+  toFirestore(item: WithFieldValue<ITodoItem>): DocumentData {
     return {
       title: item.title,
       description: item.description,
@@ -21,7 +21,7 @@ export const todoItemConverter: FirestoreDataConverter<TodoItem> = {
   fromFirestore(
     snapshot: QueryDocumentSnapshot,
     options: SnapshotOptions
-  ): TodoItem {
+  ): ITodoItem {
     const data = snapshot.data(options)!;
     return {
         title: data.title,

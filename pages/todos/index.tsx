@@ -4,7 +4,7 @@ import { useState, ChangeEvent, useEffect } from "react";
 import { addDoc, getDocs, collection, query, where, Timestamp } from "@firebase/firestore";
 import { db } from "../../db/firebase-config";
 import { todoItemConverter } from "../../db/converters";
-import { TodoItem } from "../../common/types";
+import { IDisplayTodoItem } from "../../common/types";
 import ToDoItem from "../../components/ToDoItem/ToDoItem";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { Button, Container } from "@mui/material";
@@ -13,7 +13,7 @@ import { useWindowDimensions } from "../../common/utils";
 const ToDosMainPage: NextPage = () => {
   const {width} = useWindowDimensions();
   const [todos, setTodos] = useState<any[]>([]);
-  const [newTodoItem, setNewToDoItem] = useState({
+  const [newTodoItem, setNewToDoItem] = useState<IDisplayTodoItem>({
     title: "",
     description: "",
     deadline: "",
@@ -24,39 +24,44 @@ const ToDosMainPage: NextPage = () => {
     const uid = auth.currentUser?.uid;
     if (uid) {
       const q = query(collection(db, "todos"), where("uid", "==", uid));
-      const querySnapshot = await getDocs(q);
-      var tempArray: any[] = [];
-      querySnapshot.forEach((doc) => {
-        tempArray.push(doc.data());
-      });
-      setTodos(tempArray);
+      const data = await getDocs(q);
+      const dataArray = data.docs.map((doc)=> ({
+        id:doc.id,
+        ...doc.data()
+    }));
+      
+      setTodos(dataArray);
     }
   };
   const createToDoItem = async () => {
     const uid = auth.currentUser?.uid;
     const todoRef = collection(db, "todos").withConverter(todoItemConverter);
     if (uid) {
-        var date = new Date(Date.parse(newTodoItem.deadline));
-        var timestamp = Timestamp.fromDate(date)
-        var deadline = newTodoItem.deadline.length>0? timestamp : "";
-      const set = await addDoc(todoRef, {
-        uid: uid,
-        title: newTodoItem.title,
-        description: newTodoItem.description,
-        deadline: deadline,
-        location: newTodoItem.location,
-        complete: false,
-      }).then((res) => {
-        setNewToDoItem({
-          title: "",
-          description: "",
-          deadline: "",
-          location: "",
-        });
-        setTimeout(getUserToDos, 2000);
-        setShowToDoMenu(false);
-      });
-    }
+        if(typeof newTodoItem.deadline === "string")
+        {
+            var date = new Date(Date.parse(newTodoItem.deadline));
+            var timestamp = Timestamp.fromDate(date)
+            var deadline = newTodoItem.deadline.length > 0 ? timestamp : "";
+            const set = await addDoc(todoRef, {
+                uid: uid,
+                title: newTodoItem.title,
+                description: newTodoItem.description,
+                deadline: deadline,
+                location: newTodoItem.location,
+                complete: false,
+              }).then((res) => {
+                setNewToDoItem({
+                  title: "",
+                  description: "",
+                  deadline: "",
+                  location: "",
+                });
+                setTimeout(getUserToDos, 2000);
+                setShowToDoMenu(false);
+              });
+            }
+        }
+
   };
   const onToDoTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewToDoItem((prev) => ({
@@ -82,9 +87,7 @@ const ToDosMainPage: NextPage = () => {
       location: e.target.value,
     }));
   };
-  useEffect(() => {
-    console.log(todos);
-  }, [todos]);
+
   useEffect(() => {
     setTimeout(getUserToDos, 1000);
   }, []);
@@ -164,7 +167,7 @@ const ToDosMainPage: NextPage = () => {
 
       <div>
         {todos.map((item,i) => {
-          return <ToDoItem key={item.uid + item.title + i} todoItem={item} />;
+          return <ToDoItem key={item.id + item.title + i} todoItem={item} />;
         })}
       </div>
     </Container>
