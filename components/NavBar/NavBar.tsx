@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
+import { useWindowDimensions } from "../../common/utils";
+import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import IconButton from "@mui/material/IconButton";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import styled from "@emotion/styled";
@@ -19,15 +21,15 @@ const mq = Object.keys(breakpoints)
   }, {} as { [index: string]: string });
 
 const NavContainer = styled.div`
-    position: sticky;
-    top: 0;
-    height: 5vh;
-    display: flex;
-    justify-content: space-between;
-    z-index: 10;
-    align-items: center;
-    padding: 0.5rem 2.5rem;
-    background-color: blue;
+  position: sticky;
+  top: 0;
+  height: 5vh;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: blue;
   ${mq["sm"]} {
     position: sticky;
     top: 0;
@@ -55,7 +57,6 @@ const NavContainer = styled.div`
     padding-left: 1rem;
   }
 `;
-
 export const BodyContainer = styled.div`
   ${mq["sm"]} {
     padding-top: calc(5vh + 0.5rem);
@@ -64,28 +65,47 @@ export const BodyContainer = styled.div`
     padding-left: calc(clamp(10rem, 16vw, 15rem) + 1rem);
   }
 `;
+type MobileNavProps = {
+  isOpen: boolean;
+};
+export const MobileNavList = styled.div`
+  display: ${(props: MobileNavProps) => props.isOpen ? 'flex' : 'none'}v;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.5s ease;
+`;
+const MobileNavItem = styled.div`
+  margin: 1rem;
+  width: 100%;
+  text-align: center;
+  background-color: red;
+`;
 const NavLink = styled.div``;
 const routes = {};
+
 const NavBar = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [width, setWidth] = useState<number>(700);
-  useEffect(()=> {
-    setWidth(window.innerWidth)
-    console.log("set");
-  })
+  const { width } = useWindowDimensions();
+
   return (
-    <NavContainer>
-      {/* {width > 700 ? (
-        <div>asd</div>
+    <>
+      {typeof width !== "undefined" && width > 768 ? (
+        <NavContainer>
+          <div>asd</div>
+        </NavContainer>
       ) : (
         <>
-          <IconButton />
-          <SwipeableDrawer anchor="top" onOpen={()=> console.log("a")} onClose={()=>console.log('b')} open={mobileNavOpen}>
+          <NavContainer>
+            <IconButton onClick={() => setMobileNavOpen(!mobileNavOpen)}>
+              <DensityMediumIcon htmlColor="black"></DensityMediumIcon>
+            </IconButton>
+          </NavContainer>
+          <MobileNavList isOpen={mobileNavOpen}>
             <div>sad</div>
-          </SwipeableDrawer>
+          </MobileNavList>
         </>
-      )} */}
-    </NavContainer>
+      )}
+    </>
   );
 };
 export default NavBar;

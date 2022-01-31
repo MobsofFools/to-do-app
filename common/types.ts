@@ -1,7 +1,8 @@
+import { Timestamp } from "@firebase/firestore"
 export type TodoItem = {
     title:string,
     description:string,
-    deadline?:string,
+    deadline?:string | Timestamp | Date,
     location?:string,
     complete?:boolean
     uid?:string

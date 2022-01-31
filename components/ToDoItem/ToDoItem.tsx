@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import { useState } from "react";
 import { TodoItem } from "../../common/types";
+import { Timestamp } from "@firebase/firestore";
 import Collapse from "@mui/material/Collapse";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 
@@ -14,6 +15,18 @@ const ToDoItem = (props: TodoItemProps) => {
   const handleClickAway = () => {
     setOpen(false);
   };
+  function isTimestamp(object:any): object is Timestamp {
+    return (object as Timestamp).toDate !== undefined;
+  }
+  const deadlineToString = (ddeadline:any) => {
+    const checkStamp = isTimestamp(ddeadline);
+    if(checkStamp)
+    {
+      return ddeadline.toDate().toString();
+    }
+    return ddeadline;
+  }
+  
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box
@@ -40,7 +53,7 @@ const ToDoItem = (props: TodoItemProps) => {
               <div>{location}</div>
             </div>
           </div>
-          <div>{deadline}</div>
+          <div>{deadlineToString(deadline)}</div>
         </Collapse>
         {complete ? <div>Done</div> : <div>Not done</div>}
       </Box>

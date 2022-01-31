@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { auth } from "../../db/firebase-config";
 import { useState, ChangeEvent, useEffect } from "react";
-import { addDoc, getDocs, collection, query, where } from "@firebase/firestore";
+import { addDoc, getDocs, collection, query, where, Timestamp } from "@firebase/firestore";
 import { db } from "../../db/firebase-config";
 import { todoItemConverter } from "../../db/converters";
 import { TodoItem } from "../../common/types";
@@ -13,7 +13,7 @@ import { useWindowDimensions } from "../../common/utils";
 const ToDosMainPage: NextPage = () => {
   const {width} = useWindowDimensions();
   const [todos, setTodos] = useState<any[]>([]);
-  const [newTodoItem, setNewToDoItem] = useState<TodoItem>({
+  const [newTodoItem, setNewToDoItem] = useState({
     title: "",
     description: "",
     deadline: "",
@@ -36,11 +36,13 @@ const ToDosMainPage: NextPage = () => {
     const uid = auth.currentUser?.uid;
     const todoRef = collection(db, "todos").withConverter(todoItemConverter);
     if (uid) {
+        var date = new Date(Date.parse(newTodoItem.deadline));
+        var timestamp = Timestamp.fromDate(date)
       const set = await addDoc(todoRef, {
         uid: uid,
         title: newTodoItem.title,
         description: newTodoItem.description,
-        deadline: newTodoItem.deadline,
+        deadline: timestamp,
         location: newTodoItem.location,
         complete: false,
       }).then((res) => {
@@ -89,7 +91,7 @@ const ToDosMainPage: NextPage = () => {
   return (
     <Container sx={{ width: "100vw", paddingY:"1rem"} }>
       <Button variant="contained" onClick={() => setShowToDoMenu(!showToDoMenu)}>Add New Item</Button>
-      {width < 700 ? (
+      {typeof width !== "undefined" && width < 700 ? (
         <SwipeableDrawer
           anchor={"right"}
           open={showToDoMenu}
@@ -160,8 +162,8 @@ const ToDosMainPage: NextPage = () => {
       )}
 
       <div>
-        {todos.map((item) => {
-          return <ToDoItem key={item.uid + item.title} todoItem={item} />;
+        {todos.map((item,i) => {
+          return <ToDoItem key={item.uid + item.title + i} todoItem={item} />;
         })}
       </div>
     </Container>
