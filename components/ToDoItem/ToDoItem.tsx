@@ -32,6 +32,7 @@ const ToDoItem = (props: TodoItemProps) => {
       <Box
         sx={{ border:"1px solid rgba(90,90,90,0.25)", minWidth: "50vw",boxShadow: "rgba(99, 99, 99, 0.2) 0px 4px 8px 0px" }}
         borderRadius={"0.5rem"}
+        bgcolor={"white"}
         px={"1rem"}
         py={"0.5rem"}
         margin={"0.5rem"}

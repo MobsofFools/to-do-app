@@ -38,11 +38,12 @@ const ToDosMainPage: NextPage = () => {
     if (uid) {
         var date = new Date(Date.parse(newTodoItem.deadline));
         var timestamp = Timestamp.fromDate(date)
+        var deadline = newTodoItem.deadline.length>0? timestamp : "";
       const set = await addDoc(todoRef, {
         uid: uid,
         title: newTodoItem.title,
         description: newTodoItem.description,
-        deadline: timestamp,
+        deadline: deadline,
         location: newTodoItem.location,
         complete: false,
       }).then((res) => {
@@ -89,7 +90,7 @@ const ToDosMainPage: NextPage = () => {
   }, []);
 
   return (
-    <Container sx={{ width: "100vw", paddingY:"1rem"} }>
+    <Container sx={{ width: "100%", paddingY:"1rem"} }>
       <Button variant="contained" onClick={() => setShowToDoMenu(!showToDoMenu)}>Add New Item</Button>
       {typeof width !== "undefined" && width < 700 ? (
         <SwipeableDrawer

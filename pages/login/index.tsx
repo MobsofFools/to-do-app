@@ -67,15 +67,20 @@ const Login: NextPage = () => {
   // };
   return (
     <Container maxWidth="sm">
-      <Box bgcolor={"yellow"} paddingX={"2rem"} marginY={"3rem"}>
+      <Box bgcolor={"hsla(180, 100%, 30%, 0.1)"} paddingX={"2rem"} marginY={"2rem"} borderRadius={"2rem"}>
         <Grid
           container
           spacing={0}
           direction="column"
           justifyContent="center"
-          style={{ minHeight: "calc(100vh - 6rem)" }}
+          style={{ minHeight: "calc(90vh - 6rem)" }}
         >
           <TextField
+          sx={{
+            input:{
+              backgroundColor:"white"
+            }
+          }}
             label="Email"
             type="email"
             required
@@ -84,6 +89,11 @@ const Login: NextPage = () => {
           />
           <br />
           <TextField
+          sx={{
+            input:{
+              backgroundColor:"white"
+            }
+          }}
             label="Password"
             type="password"
             required
@@ -93,7 +103,7 @@ const Login: NextPage = () => {
           <h6 style={{ marginTop: 0, paddingTop: 0, textAlign: "right" }}>
             Don't have an account?
             <Link href="/register">
-              <a>
+              <a style={{color:"red"}}>
                 <b> Register here</b>
               </a>
             </Link>

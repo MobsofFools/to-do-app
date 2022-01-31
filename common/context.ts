@@ -1,4 +1,5 @@
-import {useContext, createContext} from 'react'
+import { createContext, useContext } from "react";
+import { User } from "firebase/auth";
 
-export const thirdPartyTokenContext = createContext<string>("");
-export const thirdPartyToken = useContext(thirdPartyTokenContext);
+export const AuthContext = createContext<User|null>(null);
+export const useAuthContext = () => useContext(AuthContext);

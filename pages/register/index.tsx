@@ -80,15 +80,20 @@ const Register: NextPage = () => {
   onAuthStateChanged(auth, (currentUser) => {});
   return (
     <Container maxWidth="sm">
-      <Box bgcolor={"yellow"} paddingX={"2rem"} marginY={"3rem"}>
+      <Box bgcolor={"hsla(180, 100%, 30%, 0.1)"} paddingX={"2rem"} marginY={"2rem"} borderRadius={"2rem"}>
         <Grid
           container
           spacing={0}
           direction="column"
           justifyContent="center"
-          style={{ minHeight: "calc(100vh - 6rem)" }}
+          style={{ minHeight: "calc(90vh - 6rem)" }}
         >
           <TextField
+            sx={{
+              input:{
+                backgroundColor:"white"
+              }
+            }}
             label="Email"
             type="email"
             required
@@ -97,6 +102,11 @@ const Register: NextPage = () => {
           />
           <br />
           <TextField
+          sx={{
+            input:{
+              backgroundColor:"white"
+            }
+          }}
             label="Password"
             type="password"
             required
@@ -105,12 +115,22 @@ const Register: NextPage = () => {
           />
           <br />
           <TextField
+          sx={{
+            input:{
+              backgroundColor:"white"
+            }
+          }}
             label="First Name"
             value={registerData.fname}
             onChange={onFNameChange}
           />
           <br />
           <TextField
+          sx={{
+            input:{
+              backgroundColor:"white"
+            }
+          }}
             label="Last Name"
             value={registerData.lname}
             onChange={onLNameChange}
@@ -118,7 +138,7 @@ const Register: NextPage = () => {
           <h6 style={{ marginTop: 0, paddingTop: 0, textAlign: "right" }}>
             Already registered?{" "}
             <Link href="/login">
-              <a>Login here</a>
+              <a style={{color:"red"}}>Login here</a>
             </Link>
           </h6>
           <Button variant="contained" onClick={register}>
