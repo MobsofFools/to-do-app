@@ -34,7 +34,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     if(user)
     {
-      setTimeout(getData, 500);
+      setTimeout(getData, 1000);
     }
     
   }, []);
