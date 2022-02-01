@@ -41,30 +41,30 @@ const Login: NextPage = () => {
       router.push("/");
     });
   };
-  // const loginWithThirdParty = async () => {
-  //   const provider = new GoogleAuthProvider();
-  //   const user = await signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       // // This gives you a Google Access Token. You can use it to access the Google API.
-  //       console.log("success");
-  //       // const credential = GoogleAuthProvider.credentialFromResult(result);
-  //       // const token = credential!.accessToken;
-  //       // // The signed-in user info.
-  //       // const user = result.user;
-  //       // // ...
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //       // // Handle Errors here.
-  //       // const errorCode = error.code;
-  //       // const errorMessage = error.message;
-  //       // // The email of the user's account used.
-  //       // const email = error.email;
-  //       // // The AuthCredential type that was used.
-  //       // const credential = GoogleAuthProvider.credentialFromError(error);
-  //       // // ...
-  //     });
-  // };
+  const loginWithThirdParty = async () => {
+    const provider = new GoogleAuthProvider();
+    const user = await signInWithPopup(auth, provider)
+      .then((result) => {
+        // // This gives you a Google Access Token. You can use it to access the Google API.
+        console.log("success");
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const token = credential!.accessToken;
+        // // The signed-in user info.
+        // const user = result.user;
+        // // ...
+      })
+      .catch((error) => {
+        console.error(error);
+        // // Handle Errors here.
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // // The email of the user's account used.
+        // const email = error.email;
+        // // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // // ...
+      });
+  };
   return (
     <Container maxWidth="sm">
       <Box bgcolor={"hsla(180, 100%, 30%, 0.1)"} paddingX={"2rem"} marginY={"2rem"} borderRadius={"2rem"}>
@@ -112,9 +112,9 @@ const Login: NextPage = () => {
             login
           </Button>
         </Grid>
-        {/* <Button variant="contained" onClick={loginWithThirdParty}>
+        <Button variant="contained" onClick={loginWithThirdParty}>
           Google
-        </Button> */}
+        </Button>
       </Box>
     </Container>
   );

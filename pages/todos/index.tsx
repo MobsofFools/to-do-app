@@ -14,12 +14,12 @@ import Button from "@mui/material/Button";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import ToDoItem from "../../components/ToDoItem/ToDoItem";
 import MenuItem from "@mui/material/MenuItem";
-import AddTaskIcon from '@mui/icons-material/AddTask';
-
+import AddTaskIcon from "@mui/icons-material/AddTask";
+import ToDoSkeleton from "../../components/Skeleton/ToDoSkeleton";
 
 const ToDosMainPage: NextPage = () => {
   const { width } = useWindowDimensions();
-  const [todos, setTodos] = useState<ITodoItem[]>([]);
+  const [todos, setTodos] = useState<ITodoItem[]>();
   const [newTodoItem, setNewToDoItem] = useState<ITodoItem>({
     title: "",
     description: "",
@@ -106,143 +106,224 @@ const ToDosMainPage: NextPage = () => {
   };
 
   useEffect(() => {
-    setTimeout(getUserToDos, 1000);
+    setTimeout(getUserToDos, 500);
   }, []);
-  const TodoForm = (
-    <>
-      <TextField
-        sx={{ p: "1rem" }}
-        label="Title"
-        required
-        InputLabelProps={{
-          shrink: true,
-        }}
-        value={newTodoItem.title}
-        onChange={onToDoTitleChange}
-      />
 
-      <TextField
-        sx={{ p: "1rem" }}
-        label="Description"
-        multiline
-        minRows={2}
-        required
-        InputLabelProps={{
-          shrink: true,
-        }}
-        value={newTodoItem.description}
-        onChange={onToDoDescriptionChange}
-      />
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <TextField
-          sx={{ p: "1rem" }}
-          label="Deadline"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          type="datetime-local"
-          value={newTodoItem.deadline}
-          onChange={onToDoDeadlineChange}
-        />
-        <TextField
-          select
-          sx={{ p: "1rem" }}
-          value={newTodoItem.priority}
-          label="Priority"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          onChange={onToDoPriorityChange}
-        >
-          <MenuItem value={0}>None</MenuItem>
-          <MenuItem value={1}>Low</MenuItem>
-          <MenuItem value={2}>Medium</MenuItem>
-          <MenuItem value={3}>High</MenuItem>
-        </TextField>
-      </div>
-      <TextField
-        sx={{ p: "1rem" }}
-        label="Location"
-        InputLabelProps={{
-          shrink: true,
-        }}
-        value={newTodoItem.location}
-        onChange={onToDoLocationChange}
-      />
-
-      <br />
-      <Button sx={{ mx: "1rem" }} variant="outlined" onClick={createToDoItem}>
-        Create
-      </Button>
-    </>
-  );
   return (
     <Container sx={{ width: "100%", paddingY: "1rem" }}>
-        <Head><title>To Do List</title></Head>
-        <h1>To Do List</h1>
-        
-
+      <Head>
+        <title>To Do List</title>
+      </Head>
+      <h1>To Do List</h1>
 
       {typeof width !== "undefined" && width < 768 ? (
-        <>      <Fab
-        color="primary"
-        sx={{bgcolor:"hsla(180, 70%, 40%, 1)", position:'fixed', bottom:"1rem", right:"1rem"}}
-        size="large"
-        onClick={() => setShowToDoMenu(!showToDoMenu)}
-      >
-          <AddTaskIcon></AddTaskIcon>
-      </Fab>
-        <SwipeableDrawer
-          anchor={"right"}
-          open={showToDoMenu}
-          onOpen={() => console.log("open")}
-          onClose={() => setShowToDoMenu(false)}
-        >
-          <div
-            style={{
-              minWidth: "90vw",
-              padding: "2rem",
-              display: "flex",
-              flexDirection: "column",
+        <>
+          <Fab
+            color="primary"
+            sx={{
+              bgcolor: "hsla(180, 70%, 40%, 1)",
+              position: "fixed",
+              bottom: "1rem",
+              right: "1rem",
             }}
+            size="large"
+            onClick={() => setShowToDoMenu(!showToDoMenu)}
           >
-            {TodoForm}
-          </div>
-        </SwipeableDrawer>
+            <AddTaskIcon></AddTaskIcon>
+          </Fab>
+          <SwipeableDrawer
+            anchor={"right"}
+            open={showToDoMenu}
+            onOpen={() => console.log("open")}
+            onClose={() => setShowToDoMenu(false)}
+          >
+            <div
+              style={{
+                minWidth: "90vw",
+                maxWidth: "90vw",
+                padding: "2rem",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <TextField
+                sx={{ p: "1rem" }}
+                label="Title"
+                required
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={newTodoItem.title}
+                onChange={onToDoTitleChange}
+              />
+
+              <TextField
+                sx={{ p: "1rem" }}
+                label="Description"
+                multiline
+                minRows={2}
+                required
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={newTodoItem.description}
+                onChange={onToDoDescriptionChange}
+              />
+              <TextField
+                sx={{ p: "1rem" }}
+                label="Deadline"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                type="datetime-local"
+                value={newTodoItem.deadline}
+                onChange={onToDoDeadlineChange}
+              />
+              <TextField
+                select
+                sx={{ p: "1rem" }}
+                value={newTodoItem.priority}
+                label="Priority"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={onToDoPriorityChange}
+              >
+                <MenuItem value={0}>None</MenuItem>
+                <MenuItem value={1}>Low</MenuItem>
+                <MenuItem value={2}>Medium</MenuItem>
+                <MenuItem value={3}>High</MenuItem>
+              </TextField>
+              <TextField
+                sx={{ p: "1rem" }}
+                label="Location"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={newTodoItem.location}
+                onChange={onToDoLocationChange}
+              />
+
+              <br />
+              <Button
+                sx={{ mx: "1rem" }}
+                variant="outlined"
+                onClick={createToDoItem}
+              >
+                Create
+              </Button>
+            </div>
+          </SwipeableDrawer>
         </>
       ) : (
-          <>
+        <>
           <Fab
-        color="primary"
-        sx={{bgcolor:"hsla(180, 70%, 40%, 1)", position:'fixed', top:"3rem", right:"3rem"}}
-        size="large"
-        onClick={() => setShowToDoMenu(!showToDoMenu)}
-      >
-          <AddTaskIcon></AddTaskIcon>
-      </Fab>
-        <SwipeableDrawer
-          anchor={"right"}
-          open={showToDoMenu}
-          onOpen={() => console.log("open")}
-          onClose={() => setShowToDoMenu(false)}
-        >
-          <div
-            style={{
-              minWidth: "50vw",
-              padding: "2rem",
-              display: "flex",
-              flexDirection: "column",
+            color="primary"
+            sx={{
+              bgcolor: "hsla(180, 70%, 40%, 1)",
+              position: "fixed",
+              top: "3rem",
+              right: "3rem",
             }}
+            size="large"
+            onClick={() => setShowToDoMenu(!showToDoMenu)}
           >
-            {TodoForm}
-          </div>
-        </SwipeableDrawer>
+            <AddTaskIcon></AddTaskIcon>
+          </Fab>
+          <SwipeableDrawer
+            anchor={"right"}
+            open={showToDoMenu}
+            onOpen={() => console.log("open")}
+            onClose={() => setShowToDoMenu(false)}
+          >
+            <div
+              style={{
+                minWidth: "50vw",
+                padding: "2rem",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <TextField
+                sx={{ p: "1rem" }}
+                label="Title"
+                required
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={newTodoItem.title}
+                onChange={onToDoTitleChange}
+              />
+
+              <TextField
+                sx={{ p: "1rem" }}
+                label="Description"
+                multiline
+                minRows={2}
+                required
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={newTodoItem.description}
+                onChange={onToDoDescriptionChange}
+              />
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <TextField
+                  sx={{ p: "1rem" }}
+                  label="Deadline"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  type="datetime-local"
+                  value={newTodoItem.deadline}
+                  onChange={onToDoDeadlineChange}
+                />
+                <TextField
+                  select
+                  sx={{ p: "1rem" }}
+                  value={newTodoItem.priority}
+                  label="Priority"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={onToDoPriorityChange}
+                >
+                  <MenuItem value={0}>None</MenuItem>
+                  <MenuItem value={1}>Low</MenuItem>
+                  <MenuItem value={2}>Medium</MenuItem>
+                  <MenuItem value={3}>High</MenuItem>
+                </TextField>
+              </div>
+              <TextField
+                sx={{ p: "1rem" }}
+                label="Location"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={newTodoItem.location}
+                onChange={onToDoLocationChange}
+              />
+
+              <br />
+              <Button
+                sx={{ mx: "1rem" }}
+                variant="outlined"
+                onClick={createToDoItem}
+              >
+                Create
+              </Button>
+            </div>
+          </SwipeableDrawer>
         </>
       )}
-      <div style={{overflowY:"auto", height:"80vh"}} >
-        {todos.map((item, i) => {
+      <div style={{ overflowY: "auto", height: "80vh" }}>
+        {todos?
+        todos.map((item, i) => {
           return <ToDoItem key={item.id + item.title + i} todoItem={item} />;
-        })}
+        })
+        :
+        <ToDoSkeleton num={10} height={55}/>
+    }
       </div>
     </Container>
   );

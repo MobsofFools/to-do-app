@@ -56,6 +56,13 @@ export const getOrderedTodosByPrio = async () => {
   }));
   return dataArray;
 };
+export const getPastDeadLine = async () => {
+    const uid = auth.currentUser?.uid;
+    const q = query(
+        collection(db, "todos").withConverter(todoItemConverter),
+        where("uid", "==", uid),
+        );
+}
 
 export const updateToDoItem = async (id: string, item: ITodoItem) => {
   const todoRef = doc(db, "todos", id).withConverter(todoItemConverter);

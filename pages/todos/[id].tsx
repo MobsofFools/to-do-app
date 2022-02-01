@@ -1,17 +1,24 @@
 import { NextPage } from "next";
+import Head from "next/head";
+import Link from "next/link"
 import { useRouter } from "next/router";
 import { useState, ChangeEvent, useEffect } from "react";
-import { ITodoItem, AlertProps } from "../../common/types";
+
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { getTodoItem, updateToDoItem } from "../../common/calls";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
+import { getTodoItem, updateToDoItem } from "../../common/calls";
+import { ITodoItem, AlertProps } from "../../common/types";
 import { deadlineToString } from "../../common/utils";
-import Head from "next/head";
+
 
 const TodoItemPage: NextPage = () => {
   const router = useRouter();
@@ -104,12 +111,19 @@ const TodoItemPage: NextPage = () => {
   }, [id]);
   return (
     <Container>
+      <Link href="/todos"><Button><ArrowBackIcon/>Back</Button></Link>
         <Head>
             <title>To Do: {currentToDoItem.title}</title>
         </Head>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Grid 
+        container
+        spacing={0}
+        direction="column"
+        justifyContent="center"
+        style={{ minHeight: "calc(90vh - 6rem)" }}>
         <TextField
-          sx={{ p: "1rem" }}
+          sx={{ m: "1rem", bgcolor:"white" }}
           label="Title"
           required
           InputLabelProps={{
@@ -120,7 +134,7 @@ const TodoItemPage: NextPage = () => {
         />
 
         <TextField
-          sx={{ p: "1rem" }}
+          sx={{ m: "1rem", bgcolor:"white" }}
           label="Description"
           multiline
           minRows={2}
@@ -133,7 +147,7 @@ const TodoItemPage: NextPage = () => {
         />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <TextField
-            sx={{ p: "1rem" }}
+            sx={{ m: "1rem", bgcolor:"white" }}
             label="Deadline"
             InputLabelProps={{
               shrink: true,
@@ -144,7 +158,7 @@ const TodoItemPage: NextPage = () => {
           />
           <TextField
             select
-            sx={{ p: "1rem" }}
+            sx={{ m: "1rem", bgcolor:"white" }}
             value={currentToDoItem.priority}
             label="Priority"
             InputLabelProps={{
@@ -159,7 +173,7 @@ const TodoItemPage: NextPage = () => {
           </TextField>
         </div>
         <TextField
-          sx={{ p: "1rem" }}
+          sx={{ m: "1rem", bgcolor:"white" }}
           label="Location"
           InputLabelProps={{
             shrink: true,
@@ -172,7 +186,9 @@ const TodoItemPage: NextPage = () => {
         <Button sx={{ mx: "1rem" }} variant="outlined" onClick={handleUpdate}>
           Update
         </Button>
+        </Grid>
       </Box>
+    
       <Snackbar
         open={alert.open}
         autoHideDuration={6000}
