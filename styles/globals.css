@@ -16,3 +16,10 @@ a {
 * {
   box-sizing: border-box;
 }
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background:#d5d5da;
+}

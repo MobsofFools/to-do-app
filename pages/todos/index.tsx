@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import { useState, ChangeEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, useEffect } from "react";
 import { auth, db } from "../../db/firebase-config";
 import { addDoc, getDocs, collection, query, where } from "@firebase/firestore";
 import { todoItemConverter } from "../../db/converters";
@@ -17,7 +17,6 @@ import MenuItem from "@mui/material/MenuItem";
 import AddTaskIcon from '@mui/icons-material/AddTask';
 
 
-
 const ToDosMainPage: NextPage = () => {
   const { width } = useWindowDimensions();
   const [todos, setTodos] = useState<ITodoItem[]>([]);
@@ -29,7 +28,6 @@ const ToDosMainPage: NextPage = () => {
     priority: 0,
   });
   const [showToDoMenu, setShowToDoMenu] = useState(false);
-
 
   const getUserToDos = async () => {
     const uid = auth.currentUser?.uid;
@@ -241,7 +239,7 @@ const ToDosMainPage: NextPage = () => {
         </SwipeableDrawer>
         </>
       )}
-      <div style={{overflowY:"auto", height:"70vh"}} >
+      <div style={{overflowY:"auto", height:"80vh"}} >
         {todos.map((item, i) => {
           return <ToDoItem key={item.id + item.title + i} todoItem={item} />;
         })}

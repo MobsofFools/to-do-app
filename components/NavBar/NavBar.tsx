@@ -60,7 +60,7 @@ const NavContainer = styled.div`
 export const BodyContainer = styled.div`
   
   ${mq["sm"]} {
-    padding-top: calc(5vh + 0.5rem);
+    padding-top: 2vh;
   }
   ${mq["md"]} {
     padding-left: calc(clamp(10rem, 16vw, 15rem) + 1rem);
