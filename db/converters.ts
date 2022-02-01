@@ -16,6 +16,7 @@ export const todoItemConverter: FirestoreDataConverter<ITodoItem> = {
       location:item.location,
       complete:item.complete,
       uid:item.uid,
+      priority:item.priority,
     };
   },
   fromFirestore(
@@ -30,6 +31,7 @@ export const todoItemConverter: FirestoreDataConverter<ITodoItem> = {
         location:data.location,
         complete:data.complete,
         uid:data.uid,
+        priority:data.priority,
     };
   },
 };

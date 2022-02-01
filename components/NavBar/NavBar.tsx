@@ -5,8 +5,6 @@ import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 import IconButton from "@mui/material/IconButton";
 import styled from "@emotion/styled";
 import HomeIcon from "../HomeIcon/HomeIcon";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../db/firebase-config";
 import { useAuthContext } from "../../common/context";
 const breakpoints: { [index: string]: number } = {
   sm: 500,
@@ -83,8 +81,7 @@ const MobileNavItem = styled.div`
   text-align: center;
   background-color: red;
 `;
-const NavLink = styled.div``;
-const routes = {};
+
 
 const NavBar = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);

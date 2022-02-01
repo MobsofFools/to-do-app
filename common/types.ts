@@ -1,31 +1,32 @@
 import { Timestamp } from "@firebase/firestore"
-enum Priority {
+import {AlertColor} from '@mui/material/Alert'
+export function isTimestamp(object: any): object is Timestamp {
+    return (object as Timestamp).toDate !== undefined;
+  }
+export enum PriorityEnum {
+    None = 0,
     Low = 1,
-    Medium,
-    High
+    Medium = 2,
+    High = 3
 }
 export type ITodoItem = {
     title:string,
     description:string,
-    deadline?:string | Timestamp | Date,
+    deadline?:string|Timestamp|Date,
     location?:string,
     complete?:boolean,
-    priority?:Priority,
+    priority?:number,
     id?:string,
     uid?:string,
 }
-export type IDisplayTodoItem = {
-    title:string,
-    description:string,
-    deadline?:string,
-    location?:string,
-    complete?:boolean,
-    priority?:Priority,
-    id?:string,
-    uid?:string,
-}
+
 export type ICreatedUser = {
     email:string,
     fname:string,
     lname:string
+}
+export type AlertProps = {
+    open:boolean;
+    severity:undefined | AlertColor;
+    message:string;
 }
