@@ -6,12 +6,12 @@ const TermsOfService: NextPage = () => {
     <Container>
       <h1>Terms and Conditions</h1>
       <p>
-        These terms and conditions (the "Terms and Conditions") govern the use
+        These terms and conditions (the {`\"Terms and Conditions\"`}) govern the use
         of{" "}
         <span>
           <b>__________</b>
         </span>{" "}
-        (the "Site"). This Site is owned and operated by Edvin Lin. This Site is
+        (the {`\"Site\"`}). This Site is owned and operated by Edvin Lin. This Site is
         a portfolio project.
         <br />
         <br />
@@ -22,7 +22,7 @@ const TermsOfService: NextPage = () => {
         <b>Intellectual Property</b>
         <br />
         All content published and made available on our Site is the property of
-        Edvin Lin and the Site's creators. This includes, but is not limited to
+        Edvin Lin and the Site{`\'`}s creators. This includes, but is not limited to
         images, text, logos, documents, downloadable files and anything that
         contributes to the composition of our Site.
       </p>
