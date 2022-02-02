@@ -14,7 +14,6 @@ export const todoItemConverter: FirestoreDataConverter<ITodoItem> = {
       description: item.description,
       deadline:item.deadline,
       location:item.location,
-      complete:item.complete,
       uid:item.uid,
       priority:item.priority,
     };
@@ -29,7 +28,6 @@ export const todoItemConverter: FirestoreDataConverter<ITodoItem> = {
         description: data.description,
         deadline:data.deadline,
         location:data.location,
-        complete:data.complete,
         uid:data.uid,
         priority:data.priority,
     };

@@ -14,7 +14,6 @@ export type ITodoItem = {
     description:string,
     deadline?:string|Timestamp|Date,
     location?:string,
-    complete?:boolean,
     priority?:number,
     id?:string,
     uid?:string,
