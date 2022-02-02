@@ -9,7 +9,7 @@ const ToDoSkeleton = (props:IToDoSkeleton) => {
     return(
         <>
         {[...Array(num)].map((e,i)=> {
-            return <Skeleton width={width} height={height}></Skeleton>
+            return <Skeleton width={width} height={height} key={Math.random()+i}></Skeleton>
         })}
         </>
     );
