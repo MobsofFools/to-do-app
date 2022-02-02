@@ -7,11 +7,15 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
+import { AlertProps } from "../../common/types";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
 import { useRouter } from "next/router";
 
 const Login: NextPage = () => {
@@ -20,6 +24,20 @@ const Login: NextPage = () => {
     email: "",
     password: "",
   });
+  const [alert, setAlert] = useState<AlertProps>({
+    severity: undefined,
+    open: false,
+    message: "",
+  });
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlert((prev) => ({ ...prev, open: false }));
+  };
   const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setLoginData((prev) => ({
       ...prev,
@@ -33,13 +51,41 @@ const Login: NextPage = () => {
     }));
   };
   const login = async () => {
-    const user = await signInWithEmailAndPassword(
-      auth,
-      loginData.email,
-      loginData.password
-    ).then((res) => {
-      router.push("/");
-    });
+    try{
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginData.email,
+        loginData.password
+      ).then((res) => {
+        router.push("/");
+      })
+    }
+    catch(e:any){
+      switch(e.code) {
+        case "auth/invalid-password":
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "The email is already in use",
+          });
+          break;
+          case "auth/user-not-found":
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "There is no account associated with the provided email",
+          });
+          break;
+        default:
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "Failed to log in",
+          });
+          break;
+      }
+
+    }
   };
   const loginWithThirdParty = async () => {
     const provider = new GoogleAuthProvider();
@@ -101,7 +147,7 @@ const Login: NextPage = () => {
             onChange={onPasswordChange}
           />
           <h6 style={{ marginTop: 0, paddingTop: 0, textAlign: "right" }}>
-            Don't have an account?
+            {`Don\'t have an account?`}
             <Link href="/register">
               <a style={{color:"red"}}>
                 <b> Register here</b>
@@ -116,6 +162,20 @@ const Login: NextPage = () => {
           Google
         </Button>
       </Box>
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={alert.severity}
+          sx={{ width: "100%" }}
+        >
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };

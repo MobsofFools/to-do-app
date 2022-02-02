@@ -6,12 +6,15 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+import { AlertProps } from "../../common/types";
 import { setDoc, doc } from "@firebase/firestore";
-import Box from "@mui/material/Box"
-import Container from "@mui/material/Container"
-import TextField from "@mui/material/TextField"
-import Grid from "@mui/material/Grid"
-import Button from "@mui/material/Button"
+import Box from "@mui/material/Box";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import Container from "@mui/material/Container";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
 import { useRouter } from "next/router";
 const Register: NextPage = () => {
   const router = useRouter();
@@ -21,6 +24,20 @@ const Register: NextPage = () => {
     fname: "",
     lname: "",
   });
+  const [alert, setAlert] = useState<AlertProps>({
+    severity: undefined,
+    open: false,
+    message: "",
+  });
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlert((prev) => ({ ...prev, open: false }));
+  };
   const register = async () => {
     const user = await createUserWithEmailAndPassword(
       auth,
@@ -28,29 +45,49 @@ const Register: NextPage = () => {
       registerData.password
     );
     const uid = user.user.uid;
-    var count = 0;
-    const maxTries = 3;
-    var success = false;
-    while (count <= maxTries && !success) {
-      try {
-        const set = await setDoc(doc(db, "users", uid), {
-          fname: registerData.fname,
-          lname: registerData.lname,
-          email: registerData.email,
-        }).then((res) => {
-          success = true;
-          console.log("successful user creation");
-          router.push("/");
-        });
-        break;
-      } catch (e) {
-        if (count > maxTries) {
-          count++;
-          throw e;
-        }
+
+    try {
+      const set = await setDoc(doc(db, "users", uid), {
+        fname: registerData.fname,
+        lname: registerData.lname,
+        email: registerData.email,
+      }).then((res) => {
+        console.log("successful user creation");
+        router.push("/");
+      });
+    } catch (error:any) {
+      switch(error.code) {
+        case "auth/email-already-exists":
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "The email is already in use",
+          });
+          break;
+        case "auth/invalid-email":
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "Invalid email",
+          });
+          break;
+        case "auth/internal-error":
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "An internal error has occured, ",
+          });
+          break;
+        default:
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "An error has occured",
+          });
+          break;
       }
+
     }
-    
   };
 
   const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +117,12 @@ const Register: NextPage = () => {
   onAuthStateChanged(auth, (currentUser) => {});
   return (
     <Container maxWidth="sm">
-      <Box bgcolor={"hsla(180, 100%, 30%, 0.1)"} paddingX={"2rem"} marginY={"2rem"} borderRadius={"2rem"}>
+      <Box
+        bgcolor={"hsla(180, 100%, 30%, 0.1)"}
+        paddingX={"2rem"}
+        marginY={"2rem"}
+        borderRadius={"2rem"}
+      >
         <Grid
           container
           spacing={0}
@@ -90,9 +132,9 @@ const Register: NextPage = () => {
         >
           <TextField
             sx={{
-              input:{
-                backgroundColor:"white"
-              }
+              input: {
+                backgroundColor: "white",
+              },
             }}
             label="Email"
             type="email"
@@ -102,11 +144,11 @@ const Register: NextPage = () => {
           />
           <br />
           <TextField
-          sx={{
-            input:{
-              backgroundColor:"white"
-            }
-          }}
+            sx={{
+              input: {
+                backgroundColor: "white",
+              },
+            }}
             label="Password"
             type="password"
             required
@@ -115,22 +157,22 @@ const Register: NextPage = () => {
           />
           <br />
           <TextField
-          sx={{
-            input:{
-              backgroundColor:"white"
-            }
-          }}
+            sx={{
+              input: {
+                backgroundColor: "white",
+              },
+            }}
             label="First Name"
             value={registerData.fname}
             onChange={onFNameChange}
           />
           <br />
           <TextField
-          sx={{
-            input:{
-              backgroundColor:"white"
-            }
-          }}
+            sx={{
+              input: {
+                backgroundColor: "white",
+              },
+            }}
             label="Last Name"
             value={registerData.lname}
             onChange={onLNameChange}
@@ -138,7 +180,7 @@ const Register: NextPage = () => {
           <h6 style={{ marginTop: 0, paddingTop: 0, textAlign: "right" }}>
             Already registered?{" "}
             <Link href="/login">
-              <a style={{color:"red"}}>Login here</a>
+              <a style={{ color: "red" }}>Login here</a>
             </Link>
           </h6>
           <Button variant="contained" onClick={register}>
@@ -146,6 +188,20 @@ const Register: NextPage = () => {
           </Button>
         </Grid>
       </Box>
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={alert.severity}
+          sx={{ width: "100%" }}
+        >
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
