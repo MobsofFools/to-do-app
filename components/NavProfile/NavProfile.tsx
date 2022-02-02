@@ -1,14 +1,18 @@
-import { border } from "@mui/system";
+import Image from "next/image"
 import { useAuthContext } from "../../common/context";
 
 const NavProfile = () => {
     const user = useAuthContext();
     return(
         <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}> 
-            <div style={{height:100, width:100, borderRadius:"100%"}}>
-                {user?.photoURL ? <img src={user.photoURL}></img>
+            <div style={{height:100, width:100, borderRadius:"100%", border:"3px solid white"}}>
+                {user?.photoURL ? <Image src={user.photoURL} alt="User Profile"></Image>
                 :
-                <img src="/defaultuser.svg" alt="Default User" style={{height:100, width:100, objectFit:"contain", border:"3px solid white", borderRadius:"100%"}}/>
+                
+                <Image src="/defaultuser.svg" alt="Default User"
+                height={100}
+                width={100}
+                objectFit="contain"/>
                 }
             </div>
             {user?.email}
