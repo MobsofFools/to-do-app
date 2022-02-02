@@ -1,19 +1,26 @@
 import "../styles/globals.css";
+import Head from "next/head";
 import type { AppProps } from "next/app";
 import NavBar, { BodyContainer } from "../components/NavBar/NavBar";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
-
-// import dynamic from "next/dynamic";
-// const DynamicNavBar = dynamic(() => import('../components/NavBar/NavBar'));
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <NavBar />
-      <BodyContainer>
-        <Component {...pageProps} />
-      </BodyContainer>
-    </AuthProvider>
+    <>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css?family=Roboto"
+          rel="stylesheet"
+          type="text/css"
+        ></link>
+      </Head>
+
+      <AuthProvider>
+        <NavBar />
+        <BodyContainer>
+          <Component {...pageProps} />
+        </BodyContainer>
+      </AuthProvider>
+    </>
   );
 }
 
