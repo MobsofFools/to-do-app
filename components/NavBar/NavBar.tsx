@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import HomeIcon from "../HomeIcon/HomeIcon";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
+import CheckIcon from '@mui/icons-material/Check';
 
 import { useAuthContext } from "../../common/context";
 import { useOnClickOutside, useWindowDimensions } from "../../common/utils";
@@ -82,7 +83,7 @@ export const MobileNavList = styled.div`
   flex-direction: column;
   align-items: center;
   transition: 0.5s ease;
-  background-color:hsl(180,70%,30%);
+  background-color: hsl(180, 70%, 30%);
 `;
 const MobileNavItem = styled.div`
   margin: 1rem;
@@ -118,22 +119,59 @@ const NavBar = () => {
           {CurrentUser ? (
             <>
               <NavProfile />
-              
-                <Link href="/todos">
-                  <a>
+
+              <Link href="/todos">
+                <a>
                   <div
-                style={{
-                  padding: "0.25rem 0",
-                  margin: "0.5rem 0",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+                    style={{
+                      padding: "0.25rem 0",
+                      margin: "0.5rem 0",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div style={{display:"flex", justifyContent:"space-between", minWidth:"7rem"}}>
                     <FactCheckIcon htmlColor="white" />
-                    <p style={{margin:0, padding:0, fontWeight:"bold", color:"white"}}>To Do List</p>
+                    <p
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                        fontWeight: "bold",
+                        color: "white",
+                      }}
+                    >
+                      To Do List
+                    </p>
                     </div>
-                  </a>
-                </Link>
+                  </div>
+                </a>
+              </Link>
+              <Link href="/completed">
+                <a>
+                  <div
+                    style={{
+                      padding: "0.25rem 0",
+                      margin: "0.5rem 0",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div style={{display:"flex", justifyContent:"space-between", minWidth:"7rem"}}>
+                    <CheckIcon htmlColor="white" />
+                    <p
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                        fontWeight: "bold",
+                        color: "white",
+                      }}
+                    >
+                      Completed
+                    </p>
+                    </div>
+                  </div>
+                </a>
+              </Link>
               <div
                 style={{
                   position: "fixed",
@@ -190,7 +228,10 @@ const NavBar = () => {
               </a>
             </Link>
           </NavContainer>
-          <MobileNavList isOpen={mobileNavOpen} style={{paddingTop:"2.5rem"}}>
+          <MobileNavList
+            isOpen={mobileNavOpen}
+            style={{ paddingTop: "2.5rem" }}
+          >
             {CurrentUser ? (
               <>
                 <MobileNavItem>
