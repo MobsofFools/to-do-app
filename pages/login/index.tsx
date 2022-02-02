@@ -1,11 +1,13 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { auth } from "../../db/firebase-config";
 import { useState, ChangeEvent } from "react";
 import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithCredential,
 } from "firebase/auth";
 import { AlertProps } from "../../common/types";
 import Box from "@mui/material/Box";
@@ -51,17 +53,16 @@ const Login: NextPage = () => {
     }));
   };
   const login = async () => {
-    try{
+    try {
       const user = await signInWithEmailAndPassword(
         auth,
         loginData.email,
         loginData.password
       ).then((res) => {
         router.push("/");
-      })
-    }
-    catch(e:any){
-      switch(e.code) {
+      });
+    } catch (e: any) {
+      switch (e.code) {
         case "auth/invalid-password":
           setAlert({
             open: true,
@@ -69,7 +70,7 @@ const Login: NextPage = () => {
             message: "The email is already in use",
           });
           break;
-          case "auth/user-not-found":
+        case "auth/user-not-found":
           setAlert({
             open: true,
             severity: "error",
@@ -84,7 +85,6 @@ const Login: NextPage = () => {
           });
           break;
       }
-
     }
   };
   const loginWithThirdParty = async () => {
@@ -93,8 +93,8 @@ const Login: NextPage = () => {
       .then((result) => {
         // // This gives you a Google Access Token. You can use it to access the Google API.
         console.log("success");
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const token = credential!.accessToken;
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential!.accessToken;
         // // The signed-in user info.
         // const user = result.user;
         // // ...
@@ -113,7 +113,12 @@ const Login: NextPage = () => {
   };
   return (
     <Container maxWidth="sm">
-      <Box bgcolor={"hsla(180, 100%, 30%, 0.1)"} paddingX={"2rem"} marginY={"2rem"} borderRadius={"2rem"}>
+      <Box
+        bgcolor={"hsla(180, 100%, 30%, 0.1)"}
+        paddingX={"2rem"}
+        marginY={"2rem"}
+        borderRadius={"2rem"}
+      >
         <Grid
           container
           spacing={0}
@@ -122,11 +127,11 @@ const Login: NextPage = () => {
           style={{ minHeight: "calc(90vh - 6rem)" }}
         >
           <TextField
-          sx={{
-            input:{
-              backgroundColor:"white"
-            }
-          }}
+            sx={{
+              input: {
+                backgroundColor: "white",
+              },
+            }}
             label="Email"
             type="email"
             required
@@ -135,11 +140,11 @@ const Login: NextPage = () => {
           />
           <br />
           <TextField
-          sx={{
-            input:{
-              backgroundColor:"white"
-            }
-          }}
+            sx={{
+              input: {
+                backgroundColor: "white",
+              },
+            }}
             label="Password"
             type="password"
             required
@@ -149,7 +154,7 @@ const Login: NextPage = () => {
           <h6 style={{ marginTop: 0, paddingTop: 0, textAlign: "right" }}>
             {`Don\'t have an account?`}
             <Link href="/register">
-              <a style={{color:"red"}}>
+              <a style={{ color: "red" }}>
                 <b> Register here</b>
               </a>
             </Link>
@@ -157,10 +162,16 @@ const Login: NextPage = () => {
           <Button variant="contained" onClick={login}>
             login
           </Button>
-        </Grid>
-        <Button variant="contained" onClick={loginWithThirdParty}>
-          Google
+          <br/>
+          <Button
+          sx={{ bgcolor: "white", color:"#757575", fontFamily:"Roboto", fontWeight:"700", ":hover": {backgroundColor:"white", height:"40dp"}}}
+          onClick={loginWithThirdParty}
+        >
+          <Image src="/googlelogo.svg" height={18} width={18}></Image>
+          <div style={{padding:"0 8dp"}}>Sign in with Google</div>
         </Button>
+        </Grid>
+        
       </Box>
       <Snackbar
         open={alert.open}
