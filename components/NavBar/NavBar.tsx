@@ -38,7 +38,7 @@ const NavContainer = styled.div`
   z-index: 10;
   align-items: center;
   padding: 1rem;
-  margin-bottom: -2.5rem;
+  margin-bottom: -1rem;
   background-color: hsl(180, 70%, 40%);
   ${mq["sm"]} {
     position: sticky;
@@ -83,12 +83,13 @@ export const MobileNavList = styled.div`
   flex-direction: column;
   align-items: center;
   transition: 0.5s ease;
-  background-color: hsl(180, 70%, 30%);
+  background-color: hsla(180, 50%, 30%,0.7);
 `;
 const MobileNavItem = styled.div`
   margin: 1rem;
   width: 100%;
   text-align: center;
+  color:white;
 `;
 
 const NavBar = () => {
@@ -217,8 +218,8 @@ const NavBar = () => {
           </div>
         </NavContainer>
       ) : (
-        <>
-          <NavContainer ref={mobileMenuRef}>
+        <div ref={mobileMenuRef}>
+          <NavContainer >
             <IconButton onClick={handleNavClick}>
               <DensityMediumIcon htmlColor="black"></DensityMediumIcon>
             </IconButton>
@@ -234,26 +235,28 @@ const NavBar = () => {
           >
             {CurrentUser ? (
               <>
-                <MobileNavItem>
+                <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
                   <Link href="/todos">
                     <a>To Do List</a>
                   </Link>
                 </MobileNavItem>
-                <MobileNavItem>
-                  <div>Profile</div>
+                <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
+                <Link href="/completed">
+                    <a>Completed Tasks</a>
+                  </Link>
                 </MobileNavItem>
-                <MobileNavItem>
+                <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
                   <div>Logout</div>
                 </MobileNavItem>
               </>
             ) : (
               <>
-                <MobileNavItem>
+                <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
                   <Link href="/login">
                     <a>Login</a>
                   </Link>
                 </MobileNavItem>
-                <MobileNavItem>
+                <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
                   <Link href="/register">
                     <a>Register</a>
                   </Link>
@@ -261,7 +264,7 @@ const NavBar = () => {
               </>
             )}
           </MobileNavList>
-        </>
+        </div>
       )}
     </>
   );
