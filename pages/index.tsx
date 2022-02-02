@@ -38,8 +38,12 @@ const Home: NextPage = () => {
     getPastDue();
   };
   useEffect(() => {
+    
     if (user) {
-      setTimeout(getData, 1500);
+       var timer = setTimeout(getData, 1500);
+    }
+    return function cleanup() {
+      clearTimeout(timer);
     }
   }, []);
 

@@ -107,7 +107,10 @@ const ToDosMainPage: NextPage = () => {
   };
 
   useEffect(() => {
-    setTimeout(getUserToDos, 500);
+    var timer = setTimeout(getUserToDos, 500);
+    return function cleanup() {
+      clearTimeout(timer)
+    }
   }, []);
 
   return (
