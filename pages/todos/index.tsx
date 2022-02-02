@@ -7,6 +7,8 @@ import { todoItemConverter } from "../../db/converters";
 
 import { ITodoItem } from "../../common/types";
 import { dateStringToTimestamp, useWindowDimensions } from "../../common/utils";
+
+
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import Fab from "@mui/material/Fab";
@@ -57,7 +59,6 @@ const ToDosMainPage: NextPage = () => {
           description: newTodoItem.description,
           deadline: deadline,
           location: newTodoItem.location,
-          complete: false,
           priority: newTodoItem.priority,
         }).then((res) => {
           setNewToDoItem({
