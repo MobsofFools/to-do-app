@@ -11,6 +11,7 @@ import {
   updateDoc,
   addDoc,
   deleteDoc,
+  Timestamp,
 } from "firebase/firestore";
 import { todoItemConverter } from "../db/converters";
 import { ITodoItem } from "./types";
@@ -28,9 +29,12 @@ export const getTodoItem = async (documentId: string) => {
 };
 export const getOrderedTodosByDeadline = async () => {
   const uid = auth.currentUser?.uid;
+  const timestamp = Timestamp.now();
   const q = query(
     collection(db, "todos").withConverter(todoItemConverter),
     where("uid", "==", uid),
+    where("deadline", "!=", ""),
+    where("deadline", ">", timestamp),
     orderBy("deadline", "asc"),
     limit(3)
   );
@@ -43,6 +47,7 @@ export const getOrderedTodosByDeadline = async () => {
 };
 export const getOrderedTodosByPrio = async () => {
   const uid = auth.currentUser?.uid;
+  const timestamp = Timestamp.now();
   const q = query(
     collection(db, "todos").withConverter(todoItemConverter),
     where("uid", "==", uid),
@@ -57,12 +62,22 @@ export const getOrderedTodosByPrio = async () => {
   return dataArray;
 };
 export const getPastDeadLine = async () => {
-    const uid = auth.currentUser?.uid;
-    const q = query(
-        collection(db, "todos").withConverter(todoItemConverter),
-        where("uid", "==", uid),
-        );
-}
+  const uid = auth.currentUser?.uid;
+  const timestamp = Timestamp.now();
+  const q = query(
+    collection(db, "todos").withConverter(todoItemConverter),
+    where("uid", "==", uid),
+    where("deadline", "!=", ""),
+    where("deadline", "<", timestamp),
+    orderBy("deadline", "asc")
+  );
+  const data = await getDocs(q);
+  const dataArray = data.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return dataArray;
+};
 
 export const updateToDoItem = async (id: string, item: ITodoItem) => {
   const todoRef = doc(db, "todos", id).withConverter(todoItemConverter);
@@ -75,7 +90,6 @@ export const updateToDoItem = async (id: string, item: ITodoItem) => {
     description: item.description,
     deadline: deadline,
     location: item.location,
-    complete: item.complete,
     priority: item.priority,
   }).then((resp) => console.log(resp, "1"));
 };
@@ -83,5 +97,29 @@ export const deleteToDoItem = async (id: string | undefined) => {
   if (typeof id === "string") {
     const todoRef = doc(db, "todos", id);
     await deleteDoc(todoRef);
+  }
+};
+export const moveToCompletedArchive = async (id: string | undefined) => {
+  const uid = auth.currentUser?.uid;
+  if (id && typeof id === "string") {
+    const data = await getTodoItem(id);
+    if (data) {
+      const todoRef = collection(db, "completedtodos").withConverter(
+        todoItemConverter
+      );
+      if (uid) {
+        const set = await addDoc(todoRef, {
+          uid: uid,
+          title: data.title,
+          description: data.description,
+          deadline: data.deadline,
+          location: data.location,
+          priority: data.priority,
+        })
+        if(set){
+            deleteToDoItem(id);
+        }
+      }
+    }
   }
 };
