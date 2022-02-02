@@ -7,7 +7,6 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  signInWithCredential,
 } from "firebase/auth";
 import { AlertProps } from "../../common/types";
 import Box from "@mui/material/Box";
@@ -91,13 +90,7 @@ const Login: NextPage = () => {
     const provider = new GoogleAuthProvider();
     const user = await signInWithPopup(auth, provider)
       .then((result) => {
-        // // This gives you a Google Access Token. You can use it to access the Google API.
-        console.log("success");
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential!.accessToken;
-        // // The signed-in user info.
-        // const user = result.user;
-        // // ...
+        router.push("/");
       })
       .catch((error) => {
         console.error(error);
