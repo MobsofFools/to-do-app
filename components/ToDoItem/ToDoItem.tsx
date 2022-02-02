@@ -139,20 +139,21 @@ const ToDoItem = (props: TodoItemProps) => {
         >
           <div
             style={{
-              fontSize: "1.2rem",
-              fontWeight: "bold",
               display: "flex",
               justifyContent: "space-between",
+              alignItems:"center",
               flexWrap: "wrap",
             }}
           >
-            <div>{title}</div>
+            <div><b>{title}</b></div>
+            
             {completed ? null : (
               <IconButton onClick={() => handleComplete(id)}>
                 <CheckIcon />
               </IconButton>
             )}
           </div>
+
           <Collapse in={open}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <div>
