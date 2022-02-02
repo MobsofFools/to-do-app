@@ -5,21 +5,22 @@ import { PriorityEnum, ITodoItem, AlertProps } from "../../common/types";
 import { deadlineToDate } from "../../common/utils";
 import Collapse from "@mui/material/Collapse";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
-import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import { deleteToDoItem } from "../../common/calls";
+import CheckIcon from "@mui/icons-material/Check";
+import { deleteToDoItem, moveToCompletedArchive } from "../../common/calls";
 
 type TodoItemProps = {
   todoItem: ITodoItem;
+  completed?: boolean;
 };
 const ToDoItem = (props: TodoItemProps) => {
-  const { title, description, location, complete, deadline, id, priority } =
+  const { title, description, location, deadline, id, priority } =
     props.todoItem;
+  const { completed } = props;
   const [open, setOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -40,7 +41,24 @@ const ToDoItem = (props: TodoItemProps) => {
     }
     setAlert((prev) => ({ ...prev, open: false }));
   };
-
+  const handleComplete = (id: string | undefined) => {
+    moveToCompletedArchive(id)
+      .then(() => {
+        setAlert({
+          open: true,
+          severity: "success",
+          message: "Item Completed!",
+        });
+        setDeleted(true);
+      })
+      .catch((err) => {
+        setAlert({
+          open: true,
+          severity: "error",
+          message: "An error has occured",
+        });
+      });
+  };
   const handleDelete = (id: string | undefined) => {
     if (typeof id === "string") {
       deleteToDoItem(id)
@@ -64,10 +82,6 @@ const ToDoItem = (props: TodoItemProps) => {
   const redirectLink = `/todos/${id}`;
   const bgcolor = () => {
     var color = "";
-    if (complete) {
-      color = "hsla(120, 100%, 67%,0.3)";
-      return color;
-    }
     switch (priority) {
       case 1:
         color = "hsla(59, 100%, 75%,0.3)";
@@ -133,6 +147,11 @@ const ToDoItem = (props: TodoItemProps) => {
             }}
           >
             <div>{title}</div>
+            {completed ? null : (
+              <IconButton onClick={() => handleComplete(id)}>
+                <CheckIcon />
+              </IconButton>
+            )}
           </div>
           <Collapse in={open}>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -143,20 +162,23 @@ const ToDoItem = (props: TodoItemProps) => {
                 <div>{location}</div>
               </div>
             </div>
+
             <div>
               <div>{deadlineToDate(deadline)?.toString()}</div>
               <div>{priorityToString()}</div>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <IconButton>
-                <Link href={redirectLink}>
-                  <EditIcon fontSize="small" />
-                </Link>
-              </IconButton>
-              <IconButton onClick={() => handleDelete(id)}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </div>
+            {completed ? null : (
+              <div style={{ textAlign: "right" }}>
+                <IconButton>
+                  <Link href={redirectLink} passHref>
+                    <EditIcon fontSize="small" />
+                  </Link>
+                </IconButton>
+                <IconButton onClick={() => handleDelete(id)}>
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+              </div>
+            )}
           </Collapse>
         </Box>
       </ClickAwayListener>
