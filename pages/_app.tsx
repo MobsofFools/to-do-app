@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import NavBar, { BodyContainer } from "../components/NavBar/NavBar";
+import CookiePopup from "../components/CookiePopup/CookiePopup";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -19,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <BodyContainer>
           <Component {...pageProps} />
         </BodyContainer>
+        <CookiePopup/>
       </AuthProvider>
     </>
   );

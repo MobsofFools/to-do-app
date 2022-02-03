@@ -38,7 +38,6 @@ const NavContainer = styled.div`
   z-index: 10;
   align-items: center;
   padding: 1rem;
-  margin-bottom: -1rem;
   background-color: hsl(180, 70%, 40%);
   ${mq["sm"]} {
     position: sticky;
@@ -111,7 +110,7 @@ const NavBar = () => {
   return (
     <>
       {typeof width !== "undefined" && width >= 768 ? (
-        <NavContainer>
+        <NavContainer >
           <Link href="/">
             <a>
               <HomeIcon fontSize="large" />

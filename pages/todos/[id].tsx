@@ -12,7 +12,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { getTodoItem, updateToDoItem } from "../../common/calls";
@@ -107,7 +106,6 @@ const TodoItemPage: NextPage = () => {
   };
   useEffect(() => {
     getToDoItemData();
-    console.log("fetch");
   }, [id]);
   return (
     <Container maxWidth="sm" >
