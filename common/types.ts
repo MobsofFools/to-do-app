@@ -11,7 +11,7 @@ export enum PriorityEnum {
 }
 export type ITodoItem = {
     title:string,
-    description:string,
+    description?:string,
     deadline?:string|Timestamp|Date,
     location?:string,
     priority?:number,

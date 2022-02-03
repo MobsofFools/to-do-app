@@ -29,6 +29,7 @@ const ToDosMainPage: NextPage = () => {
     location: "",
     priority: 0,
   });
+  const [disableCreate, setDisableCreate] = useState(true);
   const [showToDoMenu, setShowToDoMenu] = useState(false);
 
   const getUserToDos = async () => {
@@ -112,7 +113,18 @@ const ToDosMainPage: NextPage = () => {
       clearTimeout(timer)
     }
   }, []);
-
+useEffect(()=>{
+  if(newTodoItem.title.length > 0)
+  {
+    setDisableCreate(false);
+  }
+  else{
+    setDisableCreate(true);
+  }
+  return function cleanup() {
+    setDisableCreate(true);
+  }
+},[newTodoItem.title])
   return (
     <Container sx={{ width: "100%",overflow:"auto",paddingY: "1rem" }}>
       <Head>
@@ -166,7 +178,6 @@ const ToDosMainPage: NextPage = () => {
                 label="Details"
                 multiline
                 minRows={2}
-                required
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -213,6 +224,7 @@ const ToDosMainPage: NextPage = () => {
                 sx={{ mx: "1rem" }}
                 variant="outlined"
                 onClick={createToDoItem}
+                disabled={disableCreate}
               >
                 Create
               </Button>
@@ -264,7 +276,6 @@ const ToDosMainPage: NextPage = () => {
                 label="Details"
                 multiline
                 minRows={2}
-                required
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -313,6 +324,7 @@ const ToDosMainPage: NextPage = () => {
                 sx={{ mx: "1rem" }}
                 variant="outlined"
                 onClick={createToDoItem}
+                disabled={disableCreate}
               >
                 Create
               </Button>
