@@ -77,6 +77,7 @@ export const BodyContainer = styled.div`
 type MobileNavProps = {
   isOpen: boolean;
 };
+
 export const MobileNavList = styled.div`
   display: ${(props: MobileNavProps) => (props.isOpen ? "flex" : "none")};
   flex-direction: column;
@@ -106,7 +107,11 @@ const NavBar = () => {
   const logout = async () => {
     await signOut(auth);
   };
-
+  const handleMobileLogout = async() => {
+    setMobileNavOpen(false);
+    await signOut(auth)
+  }
+  
   return (
     <>
       {typeof width !== "undefined" && width >= 768 ? (
@@ -186,14 +191,55 @@ const NavBar = () => {
               </div>
             </>
           ) : (
-            <>
+            <div style={{marginTop:"10vh", display:"inherit", flexDirection:"inherit", justifyContent:"inherit", alignItems:"inherit"}}>
               <Link href="/login">
-                <a>Login</a>
+                <a>
+                  <div
+                    style={{
+                      padding: "0.25rem 0",
+                      margin: "0.5rem 0",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                        fontWeight: "bold",
+                        color: "white",
+                      }}
+                    >
+                      Login
+                    </p>
+                  </div>
+                </a>
               </Link>
               <Link href="/register">
-                <a>Register</a>
+                <a>
+                  <div
+                    style={{
+                      padding: "0.25rem 0",
+                      margin: "0.5rem 0",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                    
+                  >
+                    <p
+                      style={{
+                        margin: 0,
+                        padding: 0,
+                        fontWeight: "bold",
+                        color: "white",
+                      }}
+                    >
+                      Register
+                    </p>
+                    </div>
+                </a>
               </Link>
-            </>
+            </div>
           )}
           <div
             style={{
@@ -247,8 +293,8 @@ const NavBar = () => {
                   
                 </MobileNavItem>
                 </Link>
-                <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
-                  <div>Logout</div>
+                <MobileNavItem onClick={handleMobileLogout}>
+                  <a>Logout</a>
                 </MobileNavItem>
               </>
             ) : (

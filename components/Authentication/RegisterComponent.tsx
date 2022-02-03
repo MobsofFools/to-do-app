@@ -119,7 +119,7 @@ const RegisterComponent = () => {
     <Container maxWidth="sm">
       <Box
         bgcolor={"hsla(180, 100%, 30%, 0.1)"}
-        paddingX={"2rem"}
+        padding={"2rem"}
         marginY={"2rem"}
         borderRadius={"2rem"}
       >

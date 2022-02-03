@@ -3,6 +3,7 @@ import Head from "next/head";
 import Container from "@mui/material/Container";
 import { useAuthContext } from "../common/context";
 import HomeDashBoard from "../components/HomeDashBoard/HomeDashBoard";
+import HomePageNoAuth from "../components/HomePageNoAuth/HomePageNoAuth";
 
 const Home: NextPage = () => {
   const user = useAuthContext();
@@ -16,7 +17,7 @@ const Home: NextPage = () => {
           <HomeDashBoard/>
         </>
       ) : (
-        <h1>Please log in</h1>
+        <HomePageNoAuth/>
       )}
     </Container>
   );

@@ -19,95 +19,95 @@ import Alert from "@mui/material/Alert";
 
 import { useRouter } from "next/router";
 const LoginComponent = () => {
-    const router = useRouter();
-    const [loginData, setLoginData] = useState({
-      email: "",
-      password: "",
-    });
-    const [alert, setAlert] = useState<AlertProps>({
-      severity: undefined,
-      open: false,
-      message: "",
-    });
-    const handleClose = (
-      event?: React.SyntheticEvent | Event,
-      reason?: string
-    ) => {
-      if (reason === "clickaway") {
-        return;
+  const router = useRouter();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+  const [alert, setAlert] = useState<AlertProps>({
+    severity: undefined,
+    open: false,
+    message: "",
+  });
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlert((prev) => ({ ...prev, open: false }));
+  };
+  const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLoginData((prev) => ({
+      ...prev,
+      email: e.target.value,
+    }));
+  };
+  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setLoginData((prev) => ({
+      ...prev,
+      password: e.target.value,
+    }));
+  };
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginData.email,
+        loginData.password
+      ).then((res) => {
+        router.push("/");
+      });
+    } catch (e: any) {
+      switch (e.code) {
+        case "auth/invalid-password":
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "The email is already in use",
+          });
+          break;
+        case "auth/user-not-found":
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "There is no account associated with the provided email",
+          });
+          break;
+        default:
+          setAlert({
+            open: true,
+            severity: "error",
+            message: "Failed to log in",
+          });
+          break;
       }
-      setAlert((prev) => ({ ...prev, open: false }));
-    };
-    const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setLoginData((prev) => ({
-        ...prev,
-        email: e.target.value,
-      }));
-    };
-    const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-      setLoginData((prev) => ({
-        ...prev,
-        password: e.target.value,
-      }));
-    };
-    const login = async () => {
-      try {
-        const user = await signInWithEmailAndPassword(
-          auth,
-          loginData.email,
-          loginData.password
-        ).then((res) => {
-          router.push("/");
-        });
-      } catch (e: any) {
-        switch (e.code) {
-          case "auth/invalid-password":
-            setAlert({
-              open: true,
-              severity: "error",
-              message: "The email is already in use",
-            });
-            break;
-          case "auth/user-not-found":
-            setAlert({
-              open: true,
-              severity: "error",
-              message: "There is no account associated with the provided email",
-            });
-            break;
-          default:
-            setAlert({
-              open: true,
-              severity: "error",
-              message: "Failed to log in",
-            });
-            break;
-        }
-      }
-    };
-    const loginWithThirdParty = async () => {
-      const provider = new GoogleAuthProvider();
-      const user = await signInWithPopup(auth, provider)
-        .then((result) => {
-          router.push("/");
-        })
-        .catch((error) => {
-          console.error(error);
-          // // Handle Errors here.
-          // const errorCode = error.code;
-          // const errorMessage = error.message;
-          // // The email of the user's account used.
-          // const email = error.email;
-          // // The AuthCredential type that was used.
-          // const credential = GoogleAuthProvider.credentialFromError(error);
-          // // ...
-        });
-    };
-return(
-<Container maxWidth="sm">
+    }
+  };
+  const loginWithThirdParty = async () => {
+    const provider = new GoogleAuthProvider();
+    const user = await signInWithPopup(auth, provider)
+      .then((result) => {
+        router.push("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        // // Handle Errors here.
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // // The email of the user's account used.
+        // const email = error.email;
+        // // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // // ...
+      });
+  };
+  return (
+    <Container maxWidth="sm">
       <Box
         bgcolor={"hsla(180, 100%, 30%, 0.1)"}
-        paddingX={"2rem"}
+        padding={"2rem"}
         marginY={"2rem"}
         borderRadius={"2rem"}
       >
@@ -154,16 +154,21 @@ return(
           <Button variant="contained" onClick={login}>
             login
           </Button>
-          <br/>
+          <br />
           <Button
-          sx={{ bgcolor: "white", color:"#757575", fontFamily:"Roboto", fontWeight:"700", ":hover": {backgroundColor:"white", height:"40dp"}}}
-          onClick={loginWithThirdParty}
-        >
-          <Image src="/googlelogo.svg" height={18} width={18}></Image>
-          <div style={{padding:"0 8dp"}}>Sign in with Google</div>
-        </Button>
+            sx={{
+              bgcolor: "white",
+              color: "#757575",
+              fontFamily: "Roboto",
+              fontWeight: "700",
+              ":hover": { backgroundColor: "white", height: "40dp" },
+            }}
+            onClick={loginWithThirdParty}
+          >
+            <Image src="/googlelogo.svg" height={18} width={18}></Image>
+            <div style={{ padding: "0 8px" }}>Sign in with Google</div>
+          </Button>
         </Grid>
-        
       </Box>
       <Snackbar
         open={alert.open}
@@ -180,6 +185,6 @@ return(
         </Alert>
       </Snackbar>
     </Container>
-);
-}
-export default LoginComponent
+  );
+};
+export default LoginComponent;
