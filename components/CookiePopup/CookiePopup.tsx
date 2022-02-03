@@ -32,14 +32,20 @@ const CookiePopup = () => {
       }}
     >
       <p>
-        This website uses cookies to make your experience on this website
-        better.<br/>
-        By using this website you are agreeing to the use of cookies.
+        By accepting, or continuing to use this website you are agreeing to the use of cookies.
+        <br/>
+        We use cookies to provide you with a great experience and to help our website run effectively.
+        <br/>
+        You can read more in our <a href="/cookies" target="_blank">
+            <u>Cookie Policy</u>
+          </a> and <a href="/privacy" target="_blank">
+            <u>Privacy Policy</u>
+          </a>
       </p>  
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
           flexWrap:"wrap",
           marginTop: "1rem",
         }}
@@ -47,15 +53,6 @@ const CookiePopup = () => {
         <Button variant="contained" onClick={handleAcceptCookies}>
           I accept
         </Button>
-        <div style={{ fontSize: "14px", color: "blue" }}>
-          <a href="/cookies" target="_blank">
-            Cookie Policies
-          </a>
-          <br />
-          <a href="/privacy" target="_blank">
-            Privacy Policies
-          </a>
-        </div>
       </div>
     </div>
   ) : null;
