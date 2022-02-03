@@ -53,7 +53,7 @@ const HomePageNoAuth = () => {
 
             <br />
 
-            <Link href="/register">
+            <Link href="/register" passHref>
               <Button
                 sx={{
                   fontSize: "clamp(1rem,1.5vw,2rem)",
@@ -66,7 +66,7 @@ const HomePageNoAuth = () => {
             </Link>
             <div style={{color:"black", fontSize:"clamp(1rem,1.5vw,2rem)", marginLeft:"10vw"}}>
           Already a user?
-          <Link href="/login">
+          <Link href="/login" passHref>
             <Button sx={{color:"black"}}>
               <a>Login here</a>
             </Button>

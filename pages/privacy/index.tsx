@@ -5,7 +5,7 @@ const Privacy:NextPage = () => {
     return(
         <Container>
             <h1>Privacy Policy</h1>
- We are committed to maintaining the accuracy, confidentiality, and security of your personally identifiable information ("Personal Information"). As part of this commitment, our privacy policy governs our actions as they relate to the collection, use and disclosure of Personal Information. Our privacy policy is based upon the values set by the Canadian Standards Association's Model Code for the Protection of Personal Information and Canada's Personal Information Protection and Electronic Documents Act.
+ We are committed to maintaining the accuracy, confidentiality, and security of your personally identifiable information (&quot;Personal Information&quot;). As part of this commitment, our privacy policy governs our actions as they relate to the collection, use and disclosure of Personal Information. Our privacy policy is based upon the values set by the Canadian Standards Association&apos;s Model Code for the Protection of Personal Information and Canada&apos;s Personal Information Protection and Electronic Documents Act.
 <br/><br/>
 1. Introduction
 <br/><br/>
@@ -75,7 +75,7 @@ Additional Information
 Cookies
 <br/><br/>
 
-A cookie is a small computer file or piece of information that may be stored in your computer's hard drive when you visit our websites. We may use cookies to improve our website’s functionality and in some cases, to provide visitors with a customized online experience.
+A cookie is a small computer file or piece of information that may be stored in your computer&apos;s hard drive when you visit our websites. We may use cookies to improve our website’s functionality and in some cases, to provide visitors with a customized online experience.
 <br/><br/>
 Cookies are widely used and most web browsers are configured initially to accept cookies automatically. You may change your Internet browser settings to prevent your computer from accepting cookies or to notify you when you receive a cookie so that you may decline its acceptance. Please note, however, if you disable cookies, you may not experience optimal performance of our website.
 <br/><br/>

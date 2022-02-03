@@ -106,10 +106,11 @@ const TodoItemPage: NextPage = () => {
   };
   useEffect(() => {
     getToDoItemData();
+
   }, [id]);
   return (
     <Container maxWidth="sm" >
-      <Link href="/todos">
+      <Link href="/todos" passHref>
         <Button sx={{marginTop:"1rem"}}>
           <ArrowBackIcon />
           Back

@@ -21,7 +21,7 @@ const CookiePolicy:NextPage = () => {
         to improve your experience. This page describes what information they
         gather, how we use it and why we sometimes need to store these cookies.
         We will also share how you can prevent these cookies from being stored
-        however this may downgrade or 'break' certain elements of the sites
+        however this may downgrade or &#39;break&#39; certain elements of the sites
         functionality.
       </p>
 
@@ -106,8 +106,8 @@ const CookiePolicy:NextPage = () => {
 
       <p>
         Hopefully that has clarified things for you and as was previously
-        mentioned if there is something that you aren't sure whether you need or
-        not it's usually safer to leave cookies enabled in case it does interact
+        mentioned if there is something that you aren&#39;t sure whether you need or
+        not it&#39;s usually safer to leave cookies enabled in case it does interact
         with one of the features you use on our site.
       </p>
       <p>

@@ -165,7 +165,7 @@ const LoginComponent = () => {
             }}
             onClick={loginWithThirdParty}
           >
-            <Image src="/googlelogo.svg" height={18} width={18}></Image>
+            <Image src="/googlelogo.svg" height={18} width={18} alt="google logo"></Image>
             <div style={{ padding: "0 8px" }}>Sign in with Google</div>
           </Button>
         </Grid>
