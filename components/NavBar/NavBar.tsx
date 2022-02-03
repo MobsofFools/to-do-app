@@ -10,7 +10,7 @@ import HomeIcon from "../HomeIcon/HomeIcon";
 import LogoutIcon from "@mui/icons-material/Logout";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
 import CheckIcon from '@mui/icons-material/Check';
-
+import { useRouter } from 'next/router'
 import { useAuthContext } from "../../common/context";
 import { useOnClickOutside, useWindowDimensions } from "../../common/utils";
 import NavProfile from "../NavProfile/NavProfile";
@@ -95,6 +95,7 @@ const MobileNavItem = styled.div`
 const NavBar = () => {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const { width } = useWindowDimensions();
+  const router = useRouter();
   const handleNavClick = () => {
     setMobileNavOpen(!mobileNavOpen);
   };
@@ -111,7 +112,17 @@ const NavBar = () => {
     setMobileNavOpen(false);
     await signOut(auth)
   }
-  
+  const notAuthFullWidth = () => {
+    if(router.pathname === "/" && typeof width !== "undefined" && width >= 768 && !CurrentUser)
+    {
+      return true;
+    }
+    return false;
+  }
+  if(notAuthFullWidth())
+  {
+    return null;
+  }
   return (
     <>
       {typeof width !== "undefined" && width >= 768 ? (
@@ -276,7 +287,7 @@ const NavBar = () => {
           </NavContainer>
           <MobileNavList
             isOpen={mobileNavOpen}
-            style={{ paddingTop: "2.5rem",position:"absolute", top:"5vh", width:"100%" }}
+            style={{ paddingTop: "2.5rem",position:"absolute", top:"5vh", width:"100%", zIndex:2}}
           >
             {CurrentUser ? (
               <><Link href="/todos">

@@ -8,18 +8,16 @@ import HomePageNoAuth from "../components/HomePageNoAuth/HomePageNoAuth";
 const Home: NextPage = () => {
   const user = useAuthContext();
   return (
-    <Container>
-      {user ? (
-        <>
+      user ? (
+        <Container>
           <Head>
             <title>Home</title>
           </Head>
           <HomeDashBoard/>
-        </>
+        </Container>
       ) : (
         <HomePageNoAuth/>
-      )}
-    </Container>
+      )
   );
 };
 
