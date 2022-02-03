@@ -46,7 +46,7 @@ const HomePageNoAuth = () => {
               </div>
             </div>
             <div style={{ fontSize: "clamp(1rem,1.5vw,2rem)" }}>
-              Don{"'"}t need one?
+              Don&apos;t need one?
               <br />
               Well look no further!
             </div>
@@ -64,10 +64,10 @@ const HomePageNoAuth = () => {
                 Sign Up Anyways!
               </Button>
             </Link>
-            <div style={{color:"black", fontSize:"clamp(1rem,1.5vw,2rem)", marginLeft:"10vw"}}>
+            <div style={{color:"white", fontSize:"1rem", position:"absolute", bottom:"0", right:"0", backgroundColor:"rgba(150,150,150,0.1)", padding:"0 1rem 0.5rem 1rem", borderRadius:"1rem 0 0 0"}}>
           Already a user?
           <Link href="/login" passHref>
-            <Button sx={{color:"black"}}>
+            <Button sx={{color:"white"}}>
               <a>Login here</a>
             </Button>
           </Link>
