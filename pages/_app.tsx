@@ -4,6 +4,7 @@ import type { AppProps } from "next/app";
 import NavBar, { BodyContainer } from "../components/NavBar/NavBar";
 import CookiePopup from "../components/CookiePopup/CookiePopup";
 import AuthProvider from "../components/AuthProvider/AuthProvider";
+import Footer from "../components/Footer/Footer";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
@@ -21,6 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </BodyContainer>
         <CookiePopup/>
+        <Footer/>
       </AuthProvider>
     </>
   );
