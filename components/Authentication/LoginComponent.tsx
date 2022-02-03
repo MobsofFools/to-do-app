@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Link from "next/link";
-import Image from "next/image";
+import CustomImage from "../CustomImage/CustomImage";
 import { auth } from "../../db/firebase-config";
 import { useState, ChangeEvent } from "react";
 import {
@@ -165,7 +165,7 @@ const LoginComponent = () => {
             }}
             onClick={loginWithThirdParty}
           >
-            <Image src="/googlelogo.svg" height={18} width={18} alt="google logo"></Image>
+            <CustomImage src="/googlelogo.svg" height={18} width={18} alt="google logo"/>
             <div style={{ padding: "0 8px" }}>Sign in with Google</div>
           </Button>
         </Grid>

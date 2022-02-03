@@ -127,7 +127,7 @@ const NavBar = () => {
     <>
       {typeof width !== "undefined" && width >= 768 ? (
         <NavContainer >
-          <Link href="/">
+          <Link href="/" passHref>
             <a>
               <HomeIcon fontSize="large" />
             </a>
@@ -136,7 +136,7 @@ const NavBar = () => {
             <>
               <NavProfile />
 
-              <Link href="/todos">
+              <Link href="/todos" passHref>
                 <a>
                   <div
                     style={{
@@ -162,7 +162,7 @@ const NavBar = () => {
                   </div>
                 </a>
               </Link>
-              <Link href="/completed">
+              <Link href="/completed" passHref>
                 <a>
                   <div
                     style={{
@@ -203,7 +203,7 @@ const NavBar = () => {
             </>
           ) : (
             <div style={{marginTop:"10vh", display:"inherit", flexDirection:"inherit", justifyContent:"inherit", alignItems:"inherit"}}>
-              <Link href="/login">
+              <Link href="/login" passHref>
                 <a>
                   <div
                     style={{
@@ -226,7 +226,7 @@ const NavBar = () => {
                   </div>
                 </a>
               </Link>
-              <Link href="/register">
+              <Link href="/register" passHref>
                 <a>
                   <div
                     style={{
@@ -261,12 +261,12 @@ const NavBar = () => {
               textAlign: "center",
             }}
           >
-            <Link href="/tos">
+            <Link href="/tos" passHref>
               <a>
                 <h6 style={{ padding: "0 0.25rem" }}>Terms of Service</h6>
               </a>
             </Link>
-            <Link href="/privacy">
+            <Link href="/privacy" passHref>
               <a>
                 <h6 style={{ padding: "0 0.25rem" }}>Privacy Statement</h6>
               </a>
@@ -279,7 +279,7 @@ const NavBar = () => {
             <IconButton onClick={handleNavClick}>
               <DensityMediumIcon htmlColor="black"></DensityMediumIcon>
             </IconButton>
-            <Link href="/">
+            <Link href="/" passHref>
               <a>
                 <HomeIcon fontSize="large" />
               </a>
@@ -290,14 +290,14 @@ const NavBar = () => {
             style={{ paddingTop: "2.5rem",position:"absolute", top:"5vh", width:"100%", zIndex:2}}
           >
             {CurrentUser ? (
-              <><Link href="/todos">
+              <><Link href="/todos" passHref>
                 <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
                   
                     <a>To Do List</a>
                   
                 </MobileNavItem>
                 </Link>
-                <Link href="/completed">
+                <Link href="/completed" passHref>
                 <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
                 
                     <a>Completed Tasks</a>
@@ -311,12 +311,12 @@ const NavBar = () => {
             ) : (
               <>
                 <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
-                  <Link href="/login">
+                  <Link href="/login" passHref>
                     <a>Login</a>
                   </Link>
                 </MobileNavItem>
                 <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
-                  <Link href="/register">
+                  <Link href="/register" passHref>
                     <a>Register</a>
                   </Link>
                 </MobileNavItem>
