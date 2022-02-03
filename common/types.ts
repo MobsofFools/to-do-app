@@ -17,6 +17,7 @@ export type ITodoItem = {
     priority?:number,
     id?:string,
     uid?:string,
+    completedAt?:Timestamp,
 }
 
 export type ICreatedUser = {

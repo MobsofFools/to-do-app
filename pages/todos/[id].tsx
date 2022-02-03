@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link"
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState, ChangeEvent, useEffect } from "react";
 
@@ -13,12 +13,11 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { getTodoItem, updateToDoItem } from "../../common/calls";
 import { ITodoItem, AlertProps } from "../../common/types";
 import { deadlineToString } from "../../common/utils";
-
 
 const TodoItemPage: NextPage = () => {
   const router = useRouter();
@@ -28,7 +27,7 @@ const TodoItemPage: NextPage = () => {
     description: "",
     priority: 0,
   });
-
+  const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState<AlertProps>({
     severity: undefined,
     open: false,
@@ -83,6 +82,7 @@ const TodoItemPage: NextPage = () => {
           data.deadline = timestamp;
         }
         setCurrentToDoItem(data);
+        setLoading(false);
       }
     }
   };
@@ -110,85 +110,97 @@ const TodoItemPage: NextPage = () => {
     console.log("fetch");
   }, [id]);
   return (
-    <Container>
-      <Link href="/todos"><Button><ArrowBackIcon/>Back</Button></Link>
-        <Head>
-            <title>To Do: {currentToDoItem.title}</title>
-        </Head>
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <Grid 
-        container
-        spacing={0}
-        direction="column"
-        justifyContent="center"
-        style={{ minHeight: "calc(90vh - 6rem)" }}>
-        <TextField
-          sx={{ m: "1rem", bgcolor:"white" }}
-          label="Title"
-          required
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={currentToDoItem.title}
-          onChange={onToDoTitleChange}
-        />
-
-        <TextField
-          sx={{ m: "1rem", bgcolor:"white" }}
-          label="Description"
-          multiline
-          minRows={2}
-          required
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={currentToDoItem.description}
-          onChange={onToDoDescriptionChange}
-        />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <TextField
-            sx={{ m: "1rem", bgcolor:"white" }}
-            label="Deadline"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            type="datetime-local"
-            value={currentToDoItem.deadline}
-            onChange={onToDoDeadlineChange}
-          />
-          <TextField
-            select
-            sx={{ m: "1rem", bgcolor:"white" }}
-            value={currentToDoItem.priority}
-            label="Priority"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={onToDoPriorityChange}
-          >
-            <MenuItem value={0}>None</MenuItem>
-            <MenuItem value={1}>Low</MenuItem>
-            <MenuItem value={2}>Medium</MenuItem>
-            <MenuItem value={3}>High</MenuItem>
-          </TextField>
-        </div>
-        <TextField
-          sx={{ m: "1rem", bgcolor:"white" }}
-          label="Location"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          value={currentToDoItem.location}
-          onChange={onToDoLocationChange}
-        />
-
-        <br />
-        <Button sx={{ mx: "1rem" }} variant="outlined" onClick={handleUpdate}>
-          Update
+    <Container maxWidth="sm" >
+      <Link href="/todos">
+        <Button sx={{marginTop:"1rem"}}>
+          <ArrowBackIcon />
+          Back
         </Button>
-        </Grid>
-      </Box>
-    
+      </Link>
+      <Head>
+        <title>To Do: {currentToDoItem.title}</title>
+      </Head>
+      {loading ? null : (
+        <Box sx={{ display: "flex", flexDirection: "column", flexWrap:"wrap" }}>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            justifyContent="center"
+            style={{ minHeight: "calc(90vh - 6rem)" }}
+          >
+            <TextField
+              sx={{ m: "1rem", bgcolor: "white", minWidth:"90%",maxWidth:"90%" }}
+              label="Title"
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={currentToDoItem.title}
+              onChange={onToDoTitleChange}
+            />
+
+            <TextField
+              sx={{ m: "1rem", bgcolor: "white" ,minWidth:"90%",maxWidth:"90%"}}
+              label="Details"
+              multiline
+              minRows={2}
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={currentToDoItem.description}
+              onChange={onToDoDescriptionChange}
+            />
+            <div style={{ display: "flex", justifyContent: "space-between",flexWrap:"wrap" ,minWidth:"90%",maxWidth:"90%", margin:"0 1rem"}}>
+              <TextField
+                sx={{ bgcolor: "white", marginY:"1rem"}}
+                label="Deadline"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                type="datetime-local"
+                value={currentToDoItem.deadline}
+                onChange={onToDoDeadlineChange}
+              />
+              <TextField
+                select
+                sx={{ bgcolor: "white", marginY:"1rem" }}
+                value={currentToDoItem.priority}
+                label="Priority"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={onToDoPriorityChange}
+              >
+                <MenuItem value={0}>None</MenuItem>
+                <MenuItem value={1}>Low</MenuItem>
+                <MenuItem value={2}>Medium</MenuItem>
+                <MenuItem value={3}>High</MenuItem>
+              </TextField>
+            </div>
+            <TextField
+              sx={{ m: "1rem", bgcolor: "white" ,minWidth:"90%",maxWidth:"90%" }}
+              label="Location"
+              InputLabelProps={{
+                shrink: true,
+              }}
+              value={currentToDoItem.location}
+              onChange={onToDoLocationChange}
+            />
+
+            <br />
+            <Button
+              sx={{ mx: "1rem", minWidth:"90%",maxWidth:"90%" }}
+              variant="outlined"
+              onClick={handleUpdate}
+            >
+              Update
+            </Button>
+          </Grid>
+        </Box>
+      )}
+
       <Snackbar
         open={alert.open}
         autoHideDuration={6000}

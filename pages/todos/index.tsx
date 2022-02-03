@@ -114,7 +114,7 @@ const ToDosMainPage: NextPage = () => {
   }, []);
 
   return (
-    <Container sx={{ width: "100%", paddingY: "1rem" }}>
+    <Container sx={{ width: "100%",overflow:"auto",paddingY: "1rem" }}>
       <Head>
         <title>To Do List</title>
       </Head>
@@ -163,7 +163,7 @@ const ToDosMainPage: NextPage = () => {
 
               <TextField
                 sx={{ p: "1rem" }}
-                label="Description"
+                label="Details"
                 multiline
                 minRows={2}
                 required
@@ -261,7 +261,7 @@ const ToDosMainPage: NextPage = () => {
 
               <TextField
                 sx={{ p: "1rem" }}
-                label="Description"
+                label="Details"
                 multiline
                 minRows={2}
                 required

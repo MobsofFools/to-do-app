@@ -1,24 +1,16 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import React, { useState, ChangeEvent, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { auth, db } from "../../db/firebase-config";
-import { addDoc, getDocs, collection, query, where } from "@firebase/firestore";
-import { todoItemConverter } from "../../db/converters";
+import {  getDocs, collection, query, where } from "@firebase/firestore";
+import { completedTodoItemConverter } from "../../db/converters";
 
 import { ITodoItem } from "../../common/types";
-import { dateStringToTimestamp, useWindowDimensions } from "../../common/utils";
-import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
-import Fab from "@mui/material/Fab";
-import Button from "@mui/material/Button";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import ToDoItem from "../../components/ToDoItem/ToDoItem";
-import MenuItem from "@mui/material/MenuItem";
-import AddTaskIcon from "@mui/icons-material/AddTask";
 import ToDoSkeleton from "../../components/Skeleton/ToDoSkeleton";
 
 const CompletedPage: NextPage = () => {
-  const { width } = useWindowDimensions();
   const [todos, setTodos] = useState<ITodoItem[]>();
 
 
@@ -26,7 +18,7 @@ const CompletedPage: NextPage = () => {
     const uid = auth.currentUser?.uid;
     if (uid) {
       const q = query(
-        collection(db, "completedtodos").withConverter(todoItemConverter),
+        collection(db, "completedtodos").withConverter(completedTodoItemConverter),
         where("uid", "==", uid)
       );
       const data = await getDocs(q);

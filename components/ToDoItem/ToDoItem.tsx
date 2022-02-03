@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PriorityEnum, ITodoItem, AlertProps } from "../../common/types";
 import { deadlineToDate } from "../../common/utils";
 import Collapse from "@mui/material/Collapse";
@@ -18,7 +18,7 @@ type TodoItemProps = {
   completed?: boolean;
 };
 const ToDoItem = (props: TodoItemProps) => {
-  const { title, description, location, deadline, id, priority } =
+  const { title, description, location, deadline, id, priority, completedAt } =
     props.todoItem;
   const { completed } = props;
   const [open, setOpen] = useState(false);
@@ -84,10 +84,10 @@ const ToDoItem = (props: TodoItemProps) => {
     var color = "";
     switch (priority) {
       case 1:
-        color = "hsla(59, 100%, 75%,0.3)";
+        color = "hsla(45, 100%, 75%,0.3)";
         break;
       case 2:
-        color = "hsl(41, 100%, 75%,0.3)";
+        color = "hsl(25, 100%, 75%,0.3)";
         break;
       case 3:
         color = "hsl(0, 100%, 50%,0.3)";
@@ -141,12 +141,13 @@ const ToDoItem = (props: TodoItemProps) => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems:"center",
+              alignItems: "center",
               flexWrap: "wrap",
+              minHeight:"3rem"
             }}
           >
-            <div><b>{title}</b></div>
-            
+              <b>{title}</b>
+
             {completed ? null : (
               <IconButton onClick={() => handleComplete(id)}>
                 <CheckIcon />
@@ -155,20 +156,35 @@ const ToDoItem = (props: TodoItemProps) => {
           </div>
 
           <Collapse in={open}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div>
-                <div>{description}</div>
+            <div style={{ paddingBottom: "1rem" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize:"14px",fontWeight:"bold"}}>
+                <div>Details:</div>
+                <div>
+                    Priority: {priorityToString()}
+                </div>
               </div>
-              <div>
-                <div>{location}</div>
+
+              <div
+                style={{
+                  backgroundColor: "rgba(240,243,246,0.4)",
+                  padding: "0.5rem",
+                  minHeight: "4rem",
+                  borderRadius: "0.5rem",
+                }}
+              >
+                {description}
               </div>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize:14, fontWeight:"bold" }}>
+              {deadline ? <div>Deadline:</div> : null}
+              {location ? <div>Location:</div> : null}
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom:"1rem"}}>
+              <div>{deadlineToDate(deadline)?.toString()}</div>
+              <div>{location}</div>
             </div>
 
-            <div>
-              <div>{deadlineToDate(deadline)?.toString()}</div>
-              <div>{priorityToString()}</div>
-            </div>
-            {completed ? null : (
+            {completed ? <div><div style={{fontSize:14, fontWeight:"bold" }}>Completed at: </div>{deadlineToDate(completedAt)?.toString()}</div> : (
               <div style={{ textAlign: "right" }}>
                 <IconButton>
                   <Link href={redirectLink} passHref>

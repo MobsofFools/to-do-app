@@ -83,7 +83,7 @@ export const MobileNavList = styled.div`
   flex-direction: column;
   align-items: center;
   transition: 0.5s ease;
-  background-color: hsla(180, 50%, 30%,0.7);
+  background-color: hsla(180, 50%, 30%,0.9);
 `;
 const MobileNavItem = styled.div`
   margin: 1rem;
@@ -110,7 +110,7 @@ const NavBar = () => {
 
   return (
     <>
-      {typeof width !== "undefined" && width > 768 ? (
+      {typeof width !== "undefined" && width >= 768 ? (
         <NavContainer>
           <Link href="/">
             <a>
@@ -231,20 +231,23 @@ const NavBar = () => {
           </NavContainer>
           <MobileNavList
             isOpen={mobileNavOpen}
-            style={{ paddingTop: "2.5rem" }}
+            style={{ paddingTop: "2.5rem",position:"absolute", top:"5vh", width:"100%" }}
           >
             {CurrentUser ? (
-              <>
+              <><Link href="/todos">
                 <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
-                  <Link href="/todos">
+                  
                     <a>To Do List</a>
-                  </Link>
+                  
                 </MobileNavItem>
-                <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
+                </Link>
                 <Link href="/completed">
+                <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
+                
                     <a>Completed Tasks</a>
-                  </Link>
+                  
                 </MobileNavItem>
+                </Link>
                 <MobileNavItem onClick={()=> setMobileNavOpen(false)}>
                   <div>Logout</div>
                 </MobileNavItem>

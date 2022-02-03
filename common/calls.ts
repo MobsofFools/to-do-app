@@ -13,7 +13,7 @@ import {
   deleteDoc,
   Timestamp,
 } from "firebase/firestore";
-import { todoItemConverter } from "../db/converters";
+import { completedTodoItemConverter, todoItemConverter } from "../db/converters";
 import { ITodoItem } from "./types";
 import { dateStringToTimestamp } from "./utils";
 
@@ -101,11 +101,12 @@ export const deleteToDoItem = async (id: string | undefined) => {
 };
 export const moveToCompletedArchive = async (id: string | undefined) => {
   const uid = auth.currentUser?.uid;
+  const timeNow = Timestamp.now();
   if (id && typeof id === "string") {
     const data = await getTodoItem(id);
     if (data) {
       const todoRef = collection(db, "completedtodos").withConverter(
-        todoItemConverter
+        completedTodoItemConverter
       );
       if (uid) {
         const set = await addDoc(todoRef, {
@@ -115,6 +116,7 @@ export const moveToCompletedArchive = async (id: string | undefined) => {
           deadline: data.deadline,
           location: data.location,
           priority: data.priority,
+          completedAt: timeNow,
         })
         if(set){
             deleteToDoItem(id);
