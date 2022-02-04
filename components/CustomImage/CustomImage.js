@@ -11,6 +11,7 @@ export default function CustomImage(props) {
     <Image
       {...props}
       loader={customLoader}
+      alt={"alt"}
     />
   );
 }

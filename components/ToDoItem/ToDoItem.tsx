@@ -142,7 +142,6 @@ const ToDoItem = (props: TodoItemProps) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              flexWrap: "wrap",
               minHeight:"3rem"
             }}
           >
