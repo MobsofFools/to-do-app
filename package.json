@@ -8,13 +8,15 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next export",
-    "be":"next build && next export"
+    "be": "next build && next export"
   },
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.3.1",
     "@mui/material": "^5.3.1",
+    "@types/gapi": "^0.0.41",
+    "@types/gapi.auth2": "^0.0.56",
     "firebase": "^9.6.4",
     "next": "12.0.8",
     "react": "17.0.2",
